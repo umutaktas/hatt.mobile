@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 /// Reading contexts that set the minimum font size for Ottoman/Arabic script.
 ///
@@ -25,7 +24,7 @@ enum OttomanTextSize {
 /// script with a raw [Text]; use this.
 ///
 /// * Direction is forced RTL.
-/// * Font is Noto Naskh Arabic (via google_fonts).
+/// * Font is Noto Naskh Arabic, bundled as an app asset (offline-first).
 /// * Harakat (vowel marks) can be stripped for the "harekesiz" toggle.
 /// * The 28sp floor is asserted in debug and clamped in release.
 class OttomanText extends StatelessWidget {
@@ -73,7 +72,8 @@ class OttomanText extends StatelessWidget {
       child: Text(
         content,
         textAlign: textAlign,
-        style: GoogleFonts.notoNaskhArabic(
+        style: TextStyle(
+          fontFamily: 'NotoNaskhArabic',
           fontSize: effectiveSize,
           height: 1.6,
           fontWeight: fontWeight,

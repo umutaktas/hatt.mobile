@@ -7,6 +7,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../paywall/presentation/paywall_screen.dart';
 import '../../settings/presentation/settings_screen.dart';
+import 'weak_points_screen.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -109,11 +110,13 @@ class ProfileScreen extends ConsumerWidget {
               subtitle: Text(premium ? 'Görüntüle' : 'Premium özelliği'),
               trailing:
                   premium ? const Icon(Icons.chevron_right) : const Icon(Icons.lock),
-              onTap: premium
-                  ? () {}
-                  : () => Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_) => const PaywallScreen()),
-                      ),
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => premium
+                      ? const WeakPointsScreen()
+                      : const PaywallScreen(),
+                ),
+              ),
             ),
           ),
           if (!premium)

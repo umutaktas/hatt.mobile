@@ -68,3 +68,9 @@ flutter:
     - assets/content/
     - assets/mascot/
     - assets/audio/
+  # Ottoman script must render offline (local-first, CLAUDE.md §2/§3) — the
+  # font is bundled instead of fetched at runtime via google_fonts.
+  fonts:
+    - family: NotoNaskhArabic
+      fonts:
+        - asset: assets/fonts/NotoNaskhArabic-Variable.ttf

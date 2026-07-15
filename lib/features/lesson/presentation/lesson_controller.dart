@@ -106,7 +106,19 @@ class LessonController extends StateNotifier<LessonState> {
   final Ref _ref;
   final PathNode node;
 
+  /// Synthetic node id for hearts-earning practice sessions launched from the
+  /// out-of-hearts screen; it has no curriculum row, so path progress is skipped.
+  static const practiceNodeId = '_practice';
+
   bool _currentHadError = false;
+
+  /// Prevents double-grading while the async side effects of [grade] run
+  /// (double-tap on "Kontrol Et" would otherwise spend two hearts).
+  bool _grading = false;
+
+  /// Exercises re-queued by the error queue; answering them correctly later
+  /// must not count as a first-try success.
+  final Set<Exercise> _requeued = Set.identity();
 
   LessonRepository get _lessons => LessonRepository(
         _ref.read(databaseProvider),
@@ -122,6 +134,19 @@ class LessonController extends StateNotifier<LessonState> {
   Future<void> _init() async {
     final userRow = await _users.current();
     final heartsState = await _users.regenHearts(_now);
+
+    // A lesson cannot be started without hearts; review/practice can — it is
+    // how hearts are earned back (§4.3).
+    if (node.type != NodeType.review &&
+        !userRow.premium &&
+        heartsState.current <= 0) {
+      state = state.copyWith(
+        phase: LessonPhase.outOfHearts,
+        hearts: heartsState.current,
+      );
+      return;
+    }
+
     final exercises = await _lessons.buildForNode(node, rng: Random(), now: _now);
     if (exercises.isEmpty) {
       state = state.copyWith(phase: LessonPhase.empty);
@@ -137,29 +162,67 @@ class LessonController extends StateNotifier<LessonState> {
 
   /// Grades the current exercise. [reviewKeys] are the FSRS items it exercised.
   Future<void> grade(bool correct, List<String> reviewKeys) async {
-    if (state.phase != LessonPhase.answering) return;
+    if (state.phase != LessonPhase.answering || _grading) return;
     final ex = state.current;
     if (ex == null) return;
+    _grading = true;
 
-    await _lessons.logAnswer(
-        nodeId: node.id, kind: ex.kind, correct: correct, now: _now,);
-    for (final key in reviewKeys) {
-      await _reviews.recordAnswer(key, correct: correct, now: _now);
+    try {
+      await _lessons.logAnswer(
+          nodeId: node.id, kind: ex.kind, correct: correct, now: _now,);
+      for (final key in reviewKeys) {
+        await _reviews.recordAnswer(key, correct: correct, now: _now);
+      }
+
+      if (correct) {
+        final combo = state.combo + 1;
+        await _sound.play(Sfx.correct);
+        final firstTry = !_currentHadError && !_requeued.contains(ex);
+        state = state.copyWith(
+          phase: LessonPhase.feedback,
+          lastCorrect: true,
+          combo: combo,
+          longestCombo: max(state.longestCombo, combo),
+          correctFirstTry:
+              firstTry ? state.correctFirstTry + 1 : state.correctFirstTry,
+        );
+      } else {
+        _currentHadError = true;
+        await _sound.play(Sfx.wrong);
+        var hearts = state.hearts;
+        if (!state.unlimitedHearts) {
+          final next = await _users.spendHeart(_now);
+          hearts = next.current;
+        }
+        state = state.copyWith(
+          phase: LessonPhase.feedback,
+          lastCorrect: false,
+          combo: 0,
+          wrong: state.wrong + 1,
+          hearts: hearts,
+        );
+      }
+    } finally {
+      _grading = false;
     }
+  }
 
-    if (correct) {
-      final combo = state.combo + 1;
-      await _sound.play(Sfx.correct);
-      state = state.copyWith(
-        phase: LessonPhase.feedback,
-        lastCorrect: true,
-        combo: combo,
-        longestCombo: max(state.longestCombo, combo),
-        correctFirstTry:
-            _currentHadError ? state.correctFirstTry : state.correctFirstTry + 1,
-      );
-    } else {
+  /// Penalizes a wrong pair selection inside a match exercise: costs a heart,
+  /// logs the mistake and schedules the item as "again" in FSRS — without
+  /// leaving the answering phase, so the learner keeps matching (§4.2.5).
+  Future<void> penalizeMatchMistake(String reviewKey) async {
+    if (state.phase != LessonPhase.answering || _grading) return;
+    _grading = true;
+    try {
       _currentHadError = true;
+      await _lessons.logAnswer(
+          nodeId: node.id,
+          kind: ExerciseKind.matchPairs,
+          correct: false,
+          now: _now,);
+      if (reviewKey.isNotEmpty) {
+        await _reviews.recordAnswer(reviewKey, correct: false, now: _now);
+      }
       await _sound.play(Sfx.wrong);
       var hearts = state.hearts;
       if (!state.unlimitedHearts) {
@@ -167,12 +230,15 @@ class LessonController extends StateNotifier<LessonState> {
         hearts = next.current;
       }
       state = state.copyWith(
-        phase: LessonPhase.feedback,
-        lastCorrect: false,
         combo: 0,
         wrong: state.wrong + 1,
         hearts: hearts,
+        phase: !state.unlimitedHearts && hearts <= 0
+            ? LessonPhase.outOfHearts
+            : state.phase,
       );
+    } finally {
+      _grading = false;
     }
   }
 
@@ -182,13 +248,24 @@ class LessonController extends StateNotifier<LessonState> {
       state = state.copyWith(phase: LessonPhase.outOfHearts);
       return;
     }
+
+    // Error queue: a wrongly answered exercise is re-asked at the end of the
+    // lesson until it is answered correctly (Duolingo behaviour).
+    var exercises = state.exercises;
+    final current = state.current;
+    if (state.lastCorrect == false && current != null) {
+      _requeued.add(current);
+      exercises = [...exercises, current];
+    }
+
     final nextIndex = state.index + 1;
-    if (nextIndex >= state.exercises.length) {
+    if (nextIndex >= exercises.length) {
       await _finish();
       return;
     }
     _currentHadError = false;
     state = state.copyWith(
+      exercises: exercises,
       index: nextIndex,
       phase: LessonPhase.answering,
       lastCorrect: null,
@@ -207,7 +284,11 @@ class LessonController extends StateNotifier<LessonState> {
     final stars = result.isFlawless ? 3 : (state.wrong <= 2 ? 2 : 1);
 
     final outcome = await _users.applyCompletion(xpGained: xp, now: _now);
-    await _paths.completeNode(node.id, stars: stars, score: state.correctFirstTry);
+    // Synthetic practice sessions have no curriculum row to complete/unlock.
+    if (node.id != practiceNodeId) {
+      await _paths.completeNode(node.id,
+          stars: stars, score: state.correctFirstTry,);
+    }
 
     // Review/practice lessons restore hearts (§4.3: "pratik yaparak kazan").
     if (node.type == NodeType.review) {
@@ -240,6 +321,18 @@ class LessonController extends StateNotifier<LessonState> {
     );
   }
 }
+
+/// Synthetic review node for hearts-earning practice sessions (§4.3: "pratik
+/// yaparak kazan"). Content comes from the FSRS due queue like any review.
+const practiceNode = PathNode(
+  id: LessonController.practiceNodeId,
+  type: NodeType.review,
+  title: 'Pratik',
+  contentRefs: [],
+  status: NodeStatus.available,
+  stars: 0,
+  ordinal: -1,
+);
 
 final lessonControllerProvider = StateNotifierProvider.autoDispose
     .family<LessonController, LessonState, PathNode>(

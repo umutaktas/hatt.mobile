@@ -124,6 +124,11 @@ class UserStateTable extends Table {
   BoolColumn get onboarded => boolean().withDefault(const Constant(false))();
   TextColumn get nickname => text().nullable()();
 
+  /// Version of the bundled content last seeded (curriculum.json `version`).
+  /// Lets app updates deliver new content to existing installs.
+  IntColumn get contentVersion =>
+      integer().named('content_version').withDefault(const Constant(0))();
+
   @override
   Set<Column> get primaryKey => {id};
 }

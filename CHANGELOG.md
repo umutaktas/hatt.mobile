@@ -1,5 +1,29 @@
 # CHANGELOG
 
+## 0.1.2 — Bug turu (3'lü analiz raporu, Adım 1)
+
+Analiz: `docs/ANALIZ-2026-07-15.md` (Claude ✕ agy ✕ codex, çapraz doğrulanmış).
+
+- **Çift-tıklama yarışı kapatıldı:** "Kontrol Et"e hızlı çift dokunuş artık çift
+  can/FSRS kaydı üretemez (`_grading` kilidi).
+- **Eşleştirme artık cezalı:** yanlış çift can düşürür, loglanır, FSRS'e "again"
+  gider; final değerlendirme hatalı çiftleri "good" ile ezmez.
+- **0 canla derse giriş engellendi** (review/pratik hariç — can kazanma yolu).
+- **Can bittiğinde "Pratik yaparak can kazan"** seçeneği eklendi (sentetik
+  review oturumu; yol ilerlemesine yazmaz, canları doldurur).
+- **Hata kuyruğu:** yanlış cevaplanan egzersiz dersin sonunda doğru cevaplanana
+  dek yeniden sorulur; tekrar sorulan soruların doğrusu "ilk denemede doğru"
+  sayılmaz.
+- **Hareke tercihi** artık Ayarlar'dan okunuyor (egzersiz içi toggle geçici).
+- **Zayıf Nokta Analizi ekranı gerçek:** en çok yanılınan harf/kelimeler
+  (FSRS lapses) + egzersiz tipine göre doğruluk çubukları (premium).
+- **İçerik sürümlemesi:** şema v2 (`content_version` + migration). Uygulama
+  güncellemesiyle gelen yeni müfredat, ilerleme korunarak mevcut kurulumlara
+  da yansır (unit test'li).
+- **Noto Naskh Arabic asset olarak gömüldü** — Osmanlıca artık tamamen offline
+  render edilir (google_fonts'a runtime bağımlılık kalktı).
+- Testler: 50 geçiyor; v1→v2 migration gerçek cihaz durumunda doğrulandı.
+
 ## 0.1.1 — Ses efektleri + streak hatırlatıcısı
 
 - **Ses efektleri gerçek:** doğru (çift tık), yanlış (yumuşak buzz), ders sonu

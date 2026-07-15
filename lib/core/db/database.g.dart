@@ -2842,6 +2842,14 @@ class $UserStateTableTable extends UserStateTable
   late final GeneratedColumn<String> nickname = GeneratedColumn<String>(
       'nickname', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _contentVersionMeta =
+      const VerificationMeta('contentVersion');
+  @override
+  late final GeneratedColumn<int> contentVersion = GeneratedColumn<int>(
+      'content_version', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -2859,7 +2867,8 @@ class $UserStateTableTable extends UserStateTable
         showHarakat,
         premium,
         onboarded,
-        nickname
+        nickname,
+        contentVersion
       ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -2951,6 +2960,12 @@ class $UserStateTableTable extends UserStateTable
       context.handle(_nicknameMeta,
           nickname.isAcceptableOrUnknown(data['nickname']!, _nicknameMeta));
     }
+    if (data.containsKey('content_version')) {
+      context.handle(
+          _contentVersionMeta,
+          contentVersion.isAcceptableOrUnknown(
+              data['content_version']!, _contentVersionMeta));
+    }
     return context;
   }
 
@@ -2992,6 +3007,8 @@ class $UserStateTableTable extends UserStateTable
           .read(DriftSqlType.bool, data['${effectivePrefix}onboarded'])!,
       nickname: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}nickname']),
+      contentVersion: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}content_version'])!,
     );
   }
 
@@ -3018,6 +3035,10 @@ class UserStateRow extends DataClass implements Insertable<UserStateRow> {
   final bool premium;
   final bool onboarded;
   final String? nickname;
+
+  /// Version of the bundled content last seeded (curriculum.json `version`).
+  /// Lets app updates deliver new content to existing installs.
+  final int contentVersion;
   const UserStateRow(
       {required this.id,
       required this.hearts,
@@ -3034,7 +3055,8 @@ class UserStateRow extends DataClass implements Insertable<UserStateRow> {
       required this.showHarakat,
       required this.premium,
       required this.onboarded,
-      this.nickname});
+      this.nickname,
+      required this.contentVersion});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -3062,6 +3084,7 @@ class UserStateRow extends DataClass implements Insertable<UserStateRow> {
     if (!nullToAbsent || nickname != null) {
       map['nickname'] = Variable<String>(nickname);
     }
+    map['content_version'] = Variable<int>(contentVersion);
     return map;
   }
 
@@ -3091,6 +3114,7 @@ class UserStateRow extends DataClass implements Insertable<UserStateRow> {
       nickname: nickname == null && nullToAbsent
           ? const Value.absent()
           : Value(nickname),
+      contentVersion: Value(contentVersion),
     );
   }
 
@@ -3114,6 +3138,7 @@ class UserStateRow extends DataClass implements Insertable<UserStateRow> {
       premium: serializer.fromJson<bool>(json['premium']),
       onboarded: serializer.fromJson<bool>(json['onboarded']),
       nickname: serializer.fromJson<String?>(json['nickname']),
+      contentVersion: serializer.fromJson<int>(json['contentVersion']),
     );
   }
   @override
@@ -3136,6 +3161,7 @@ class UserStateRow extends DataClass implements Insertable<UserStateRow> {
       'premium': serializer.toJson<bool>(premium),
       'onboarded': serializer.toJson<bool>(onboarded),
       'nickname': serializer.toJson<String?>(nickname),
+      'contentVersion': serializer.toJson<int>(contentVersion),
     };
   }
 
@@ -3155,7 +3181,8 @@ class UserStateRow extends DataClass implements Insertable<UserStateRow> {
           bool? showHarakat,
           bool? premium,
           bool? onboarded,
-          Value<String?> nickname = const Value.absent()}) =>
+          Value<String?> nickname = const Value.absent(),
+          int? contentVersion}) =>
       UserStateRow(
         id: id ?? this.id,
         hearts: hearts ?? this.hearts,
@@ -3177,6 +3204,7 @@ class UserStateRow extends DataClass implements Insertable<UserStateRow> {
         premium: premium ?? this.premium,
         onboarded: onboarded ?? this.onboarded,
         nickname: nickname.present ? nickname.value : this.nickname,
+        contentVersion: contentVersion ?? this.contentVersion,
       );
   UserStateRow copyWithCompanion(UserStateTableCompanion data) {
     return UserStateRow(
@@ -3212,6 +3240,9 @@ class UserStateRow extends DataClass implements Insertable<UserStateRow> {
       premium: data.premium.present ? data.premium.value : this.premium,
       onboarded: data.onboarded.present ? data.onboarded.value : this.onboarded,
       nickname: data.nickname.present ? data.nickname.value : this.nickname,
+      contentVersion: data.contentVersion.present
+          ? data.contentVersion.value
+          : this.contentVersion,
     );
   }
 
@@ -3233,7 +3264,8 @@ class UserStateRow extends DataClass implements Insertable<UserStateRow> {
           ..write('showHarakat: $showHarakat, ')
           ..write('premium: $premium, ')
           ..write('onboarded: $onboarded, ')
-          ..write('nickname: $nickname')
+          ..write('nickname: $nickname, ')
+          ..write('contentVersion: $contentVersion')
           ..write(')'))
         .toString();
   }
@@ -3255,7 +3287,8 @@ class UserStateRow extends DataClass implements Insertable<UserStateRow> {
       showHarakat,
       premium,
       onboarded,
-      nickname);
+      nickname,
+      contentVersion);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -3275,7 +3308,8 @@ class UserStateRow extends DataClass implements Insertable<UserStateRow> {
           other.showHarakat == this.showHarakat &&
           other.premium == this.premium &&
           other.onboarded == this.onboarded &&
-          other.nickname == this.nickname);
+          other.nickname == this.nickname &&
+          other.contentVersion == this.contentVersion);
 }
 
 class UserStateTableCompanion extends UpdateCompanion<UserStateRow> {
@@ -3295,6 +3329,7 @@ class UserStateTableCompanion extends UpdateCompanion<UserStateRow> {
   final Value<bool> premium;
   final Value<bool> onboarded;
   final Value<String?> nickname;
+  final Value<int> contentVersion;
   const UserStateTableCompanion({
     this.id = const Value.absent(),
     this.hearts = const Value.absent(),
@@ -3312,6 +3347,7 @@ class UserStateTableCompanion extends UpdateCompanion<UserStateRow> {
     this.premium = const Value.absent(),
     this.onboarded = const Value.absent(),
     this.nickname = const Value.absent(),
+    this.contentVersion = const Value.absent(),
   });
   UserStateTableCompanion.insert({
     this.id = const Value.absent(),
@@ -3330,6 +3366,7 @@ class UserStateTableCompanion extends UpdateCompanion<UserStateRow> {
     this.premium = const Value.absent(),
     this.onboarded = const Value.absent(),
     this.nickname = const Value.absent(),
+    this.contentVersion = const Value.absent(),
   });
   static Insertable<UserStateRow> custom({
     Expression<int>? id,
@@ -3348,6 +3385,7 @@ class UserStateTableCompanion extends UpdateCompanion<UserStateRow> {
     Expression<bool>? premium,
     Expression<bool>? onboarded,
     Expression<String>? nickname,
+    Expression<int>? contentVersion,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -3366,6 +3404,7 @@ class UserStateTableCompanion extends UpdateCompanion<UserStateRow> {
       if (premium != null) 'premium': premium,
       if (onboarded != null) 'onboarded': onboarded,
       if (nickname != null) 'nickname': nickname,
+      if (contentVersion != null) 'content_version': contentVersion,
     });
   }
 
@@ -3385,7 +3424,8 @@ class UserStateTableCompanion extends UpdateCompanion<UserStateRow> {
       Value<bool>? showHarakat,
       Value<bool>? premium,
       Value<bool>? onboarded,
-      Value<String?>? nickname}) {
+      Value<String?>? nickname,
+      Value<int>? contentVersion}) {
     return UserStateTableCompanion(
       id: id ?? this.id,
       hearts: hearts ?? this.hearts,
@@ -3403,6 +3443,7 @@ class UserStateTableCompanion extends UpdateCompanion<UserStateRow> {
       premium: premium ?? this.premium,
       onboarded: onboarded ?? this.onboarded,
       nickname: nickname ?? this.nickname,
+      contentVersion: contentVersion ?? this.contentVersion,
     );
   }
 
@@ -3457,6 +3498,9 @@ class UserStateTableCompanion extends UpdateCompanion<UserStateRow> {
     if (nickname.present) {
       map['nickname'] = Variable<String>(nickname.value);
     }
+    if (contentVersion.present) {
+      map['content_version'] = Variable<int>(contentVersion.value);
+    }
     return map;
   }
 
@@ -3478,7 +3522,8 @@ class UserStateTableCompanion extends UpdateCompanion<UserStateRow> {
           ..write('showHarakat: $showHarakat, ')
           ..write('premium: $premium, ')
           ..write('onboarded: $onboarded, ')
-          ..write('nickname: $nickname')
+          ..write('nickname: $nickname, ')
+          ..write('contentVersion: $contentVersion')
           ..write(')'))
         .toString();
   }
@@ -5240,6 +5285,7 @@ typedef $$UserStateTableTableCreateCompanionBuilder = UserStateTableCompanion
   Value<bool> premium,
   Value<bool> onboarded,
   Value<String?> nickname,
+  Value<int> contentVersion,
 });
 typedef $$UserStateTableTableUpdateCompanionBuilder = UserStateTableCompanion
     Function({
@@ -5259,6 +5305,7 @@ typedef $$UserStateTableTableUpdateCompanionBuilder = UserStateTableCompanion
   Value<bool> premium,
   Value<bool> onboarded,
   Value<String?> nickname,
+  Value<int> contentVersion,
 });
 
 class $$UserStateTableTableFilterComposer
@@ -5319,6 +5366,10 @@ class $$UserStateTableTableFilterComposer
 
   ColumnFilters<String> get nickname => $composableBuilder(
       column: $table.nickname, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get contentVersion => $composableBuilder(
+      column: $table.contentVersion,
+      builder: (column) => ColumnFilters(column));
 }
 
 class $$UserStateTableTableOrderingComposer
@@ -5384,6 +5435,10 @@ class $$UserStateTableTableOrderingComposer
 
   ColumnOrderings<String> get nickname => $composableBuilder(
       column: $table.nickname, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get contentVersion => $composableBuilder(
+      column: $table.contentVersion,
+      builder: (column) => ColumnOrderings(column));
 }
 
 class $$UserStateTableTableAnnotationComposer
@@ -5442,6 +5497,9 @@ class $$UserStateTableTableAnnotationComposer
 
   GeneratedColumn<String> get nickname =>
       $composableBuilder(column: $table.nickname, builder: (column) => column);
+
+  GeneratedColumn<int> get contentVersion => $composableBuilder(
+      column: $table.contentVersion, builder: (column) => column);
 }
 
 class $$UserStateTableTableTableManager extends RootTableManager<
@@ -5487,6 +5545,7 @@ class $$UserStateTableTableTableManager extends RootTableManager<
             Value<bool> premium = const Value.absent(),
             Value<bool> onboarded = const Value.absent(),
             Value<String?> nickname = const Value.absent(),
+            Value<int> contentVersion = const Value.absent(),
           }) =>
               UserStateTableCompanion(
             id: id,
@@ -5505,6 +5564,7 @@ class $$UserStateTableTableTableManager extends RootTableManager<
             premium: premium,
             onboarded: onboarded,
             nickname: nickname,
+            contentVersion: contentVersion,
           ),
           createCompanionCallback: ({
             Value<int> id = const Value.absent(),
@@ -5523,6 +5583,7 @@ class $$UserStateTableTableTableManager extends RootTableManager<
             Value<bool> premium = const Value.absent(),
             Value<bool> onboarded = const Value.absent(),
             Value<String?> nickname = const Value.absent(),
+            Value<int> contentVersion = const Value.absent(),
           }) =>
               UserStateTableCompanion.insert(
             id: id,
@@ -5541,6 +5602,7 @@ class $$UserStateTableTableTableManager extends RootTableManager<
             premium: premium,
             onboarded: onboarded,
             nickname: nickname,
+            contentVersion: contentVersion,
           ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))

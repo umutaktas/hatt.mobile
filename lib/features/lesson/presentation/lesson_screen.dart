@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/gamification/transliteration_matcher.dart';
 import '../../../core/mascot/mascot_state.dart';
+import '../../../core/providers/app_providers.dart';
 import '../../../core/mascot/mascot_view.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/ottoman_text.dart';
@@ -112,11 +113,21 @@ class _ExerciseViewState extends ConsumerState<_ExerciseView> {
   static const _matcher = TransliterationMatcher();
   int? _selected;
   final _typed = TextEditingController();
-  bool _showHarakat = true;
+  late bool _showHarakat;
   final Map<String, String> _matches = {}; // ottoman key -> tr chosen
+  final Set<String> _matchMistakes = {}; // pair keys answered wrong at least once
   String? _pendingOttoman;
 
   bool? _lastCorrect;
+
+  @override
+  void initState() {
+    super.initState();
+    // Start from the persisted preference (Ayarlar → Hareke göster); the
+    // in-exercise toggle then only overrides the current exercise.
+    _showHarakat =
+        ref.read(userStateProvider).value?.showHarakat ?? true;
+  }
 
   @override
   void dispose() {
@@ -140,15 +151,21 @@ class _ExerciseViewState extends ConsumerState<_ExerciseView> {
   Future<void> _check() async {
     final ex = widget.exercise;
     bool correct;
+    var reviewKeys = ex.reviewKeys;
     if (ex is ChoiceExercise) {
       correct = _selected == ex.correctIndex;
     } else if (ex is TypingExercise) {
       correct = _matcher.matches(_typed.text, ex.expected);
     } else {
-      correct = true; // MatchExercise only locks correct pairs.
+      // MatchExercise: pairs are all matched by now. Mistaken pairs were
+      // already penalized and sent to FSRS as "again" — don't overwrite that
+      // with a "good" here.
+      correct = true;
+      reviewKeys =
+          reviewKeys.where((k) => !_matchMistakes.contains(k)).toList();
     }
     setState(() => _lastCorrect = correct);
-    await _controller.grade(correct, ex.reviewKeys);
+    await _controller.grade(correct, reviewKeys);
   }
 
   @override
@@ -353,12 +370,18 @@ class _ExerciseViewState extends ConsumerState<_ExerciseView> {
     final key = _pendingOttoman;
     if (key == null) return;
     final pair = ex.pairs.firstWhere((p) => p.key == key);
+    final isCorrect = pair.tr == tr;
     setState(() {
-      if (pair.tr == tr) {
+      if (isCorrect) {
         _matches[key] = tr; // correct pair locks
       }
       _pendingOttoman = null;
     });
+    if (!isCorrect) {
+      // A wrong pair costs a heart and feeds FSRS, like any wrong answer.
+      _matchMistakes.add(pair.key);
+      _controller.penalizeMatchMistake(pair.key);
+    }
   }
 
   String _promptLabel(ExerciseKind kind) => switch (kind) {
@@ -508,6 +531,16 @@ class _OutOfHeartsView extends ConsumerWidget {
             Text(l10n.outOfHeartsBody, textAlign: TextAlign.center),
             const SizedBox(height: 32),
             FilledButton.icon(
+              icon: const Icon(Icons.fitness_center),
+              onPressed: () => Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (_) => const LessonScreen(node: practiceNode),
+                ),
+              ),
+              label: const Text('Pratik yaparak can kazan'),
+            ),
+            const SizedBox(height: 12),
+            OutlinedButton.icon(
               icon: const Icon(Icons.workspace_premium),
               onPressed: () => Navigator.of(context).push(
                 MaterialPageRoute(builder: (_) => const PaywallScreen()),
@@ -515,7 +548,7 @@ class _OutOfHeartsView extends ConsumerWidget {
               label: Text(l10n.premiumUnlimitedHearts),
             ),
             const SizedBox(height: 12),
-            OutlinedButton(
+            TextButton(
               onPressed: () => Navigator.of(context).maybePop(),
               child: const Text('Yola dön'),
             ),
