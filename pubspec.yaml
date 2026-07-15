@@ -36,6 +36,7 @@ dependencies:
   # i18n
   intl: any
 
+  timezone: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

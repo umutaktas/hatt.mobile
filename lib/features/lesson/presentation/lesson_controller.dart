@@ -214,7 +214,18 @@ class LessonController extends StateNotifier<LessonState> {
       await _users.refillHearts();
     }
 
-    await _sound.play(Sfx.lessonComplete);
+    if (outcome.leveledUp) {
+      await _sound.play(Sfx.levelUp);
+    } else {
+      await _sound.play(Sfx.lessonComplete);
+    }
+
+    // Today's activity is registered — push the streak reminder to tomorrow.
+    if (_ref.read(featureFlagsProvider).localNotificationsEnabled) {
+      await _ref
+          .read(streakReminderProvider)
+          .reschedule(await _users.current(), now: _now);
+    }
 
     state = state.copyWith(
       phase: LessonPhase.finished,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../core/providers/app_providers.dart';
 import '../features/league/presentation/league_screen.dart';
 import '../features/path/presentation/path_screen.dart';
 import '../features/profile/presentation/profile_screen.dart';
@@ -15,6 +16,17 @@ class HomeShell extends ConsumerStatefulWidget {
 
 class _HomeShellState extends ConsumerState<HomeShell> {
   int _index = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    // (Re)schedule the streak reminder from the persisted state on app start.
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!ref.read(featureFlagsProvider).localNotificationsEnabled) return;
+      final user = await ref.read(userRepositoryProvider).current();
+      await ref.read(streakReminderProvider).reschedule(user);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

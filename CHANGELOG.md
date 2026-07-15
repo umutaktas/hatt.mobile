@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## 0.1.1 — Ses efektleri + streak hatırlatıcısı
+
+- **Ses efektleri gerçek:** doğru (çift tık), yanlış (yumuşak buzz), ders sonu
+  fanfarı, seviye atlama (yükseliş) — sentezlenmiş WAV'lar; seviye atlanınca
+  fanfar yerine seviye sesi çalar. iOS simülatöründe doğrulandı.
+- **Streak hatırlatıcısı bağlandı:** `flutter_local_notifications` ile günlük
+  20:00 yerel bildirimi. Kural saf Dart (`nextStreakReminder`, unit testli):
+  bugün çalışıldıysa yarına, çalışılmadıysa bugüne kurulur; korunacak seri
+  yoksa hiç kurulmaz. Açılışta ve ders bitiminde yeniden zamanlanır; Android
+  manifest izin + boot receiver'ları eklendi.
+- Android `label` "Hatt" yapıldı. Testler: 48 geçiyor, analyze temiz.
+
 ## 0.1.0 — MVP iskeleti (Faz 1–6)
 
 İlk çalışan sürüm. `flutter analyze` temiz, testler geçiyor.

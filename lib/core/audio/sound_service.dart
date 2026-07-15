@@ -5,10 +5,10 @@ import 'package:flutter/foundation.dart';
 /// asset or an unsupported platform (e.g. tests) never throws into the UI, and
 /// respects the user's sound toggle.
 enum Sfx {
-  correct('audio/correct.mp3'),
-  wrong('audio/wrong.mp3'),
-  lessonComplete('audio/complete.mp3'),
-  levelUp('audio/levelup.mp3');
+  correct('audio/correct.wav'),
+  wrong('audio/wrong.wav'),
+  lessonComplete('audio/complete.wav'),
+  levelUp('audio/levelup.wav');
 
   const Sfx(this.asset);
   final String asset;

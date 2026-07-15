@@ -1,12 +1,11 @@
-# Audio placeholders
+# Audio SFX
 
-Short SFX (CLAUDE.md §2, §4.3). Replace these silent/placeholder files with real
-assets before release. The app degrades gracefully if a file is missing.
+Short synthesized tones (generated placeholders — replace with produced SFX
+before store release if desired). Referenced by lib/core/audio/sound_service.dart:
 
-Expected files (referenced by lib/core/audio/sound_service.dart):
-- correct.mp3   — short tick on a correct answer
-- wrong.mp3     — soft buzz on a wrong answer
-- complete.mp3  — lesson-complete fanfare
-- levelup.mp3   — level-up sting
+- correct.wav   — bright double tick (correct answer)
+- wrong.wav     — soft low buzz (wrong answer)
+- complete.wav  — short fanfare arpeggio (lesson complete)
+- levelup.wav   — rising sweep (level up)
 
 Volume / mute is controlled from Settings (user_state.sound_enabled).

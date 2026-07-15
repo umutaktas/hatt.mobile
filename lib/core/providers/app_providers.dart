@@ -6,6 +6,7 @@ import '../../features/profile/data/user_repository.dart';
 import '../audio/sound_service.dart';
 import '../config/feature_flags.dart';
 import '../db/database.dart';
+import '../notifications/streak_reminder_service.dart';
 
 /// The Drift database. Overridden in tests with [AppDatabase.forTesting].
 final databaseProvider = Provider<AppDatabase>((ref) {
@@ -20,6 +21,10 @@ final featureFlagsProvider = Provider<FeatureFlags>(
 
 final userRepositoryProvider = Provider<UserRepository>(
   (ref) => UserRepository(ref.watch(databaseProvider)),
+);
+
+final streakReminderProvider = Provider<StreakReminderService>(
+  (ref) => StreakReminderService(),
 );
 
 final soundServiceProvider = Provider<SoundService>((ref) {
