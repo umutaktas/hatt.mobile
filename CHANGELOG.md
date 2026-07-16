@@ -1,5 +1,22 @@
 # CHANGELOG
 
+## 0.1.3 — Maskot: Mürekkep
+
+- **Yeni maskot "Mürekkep":** Figma'da hazırlanan mürekkep hokkası karakteri
+  ("Osmanlıca E-Learning — Mürekkep Maskot") uygulamaya alındı. Placeholder
+  "Kamış" SVG'leri silindi, `flutter_svg` bağımlılığı kaldırıldı.
+- **5 poz varyantı:** Neutral / Thinking / Celebrate / Encourage pozları
+  arka planları şeffaflaştırılıp optimize edilmiş PNG olarak eklendi
+  (~50 KB/adet). Eksik uyuyan poz Neutral'dan kapalı-göz türetilerek üretildi
+  ve Figma dosyasına "Sleeping" frame'i olarak geri yüklendi. Eşleme:
+  normal→Neutral, celebrating→Celebrate, sad→Encourage, sleeping→Sleeping.
+- **Maskot animasyonları:** `MascotView` artık duruma özel döngülü animasyon
+  oynatıyor (flutter_animate): normal = yumuşak süzülme + rastgele göz kırpma
+  (kapalı-göz karesiyle), celebrating = enerjik zıplama + salınım,
+  sad = yavaş teselli salınımı, sleeping = nefes alma + süzülen "Zzz".
+  `animated: false` veya erişilebilirlik "animasyonları kapat" ayarı statik
+  görsele düşürür; golden testler bu yolu kullanır.
+
 ## 0.1.2 — Bug turu (3'lü analiz raporu, Adım 1)
 
 Analiz: `docs/ANALIZ-2026-07-15.md` (Claude ✕ agy ✕ codex, çapraz doğrulanmış).

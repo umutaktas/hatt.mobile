@@ -12,7 +12,7 @@ Osmanlı Türkçesi (Osmanlıca) okumayı **Duolingo yapısında** öğreten, ye
 - **6 egzersiz tipi:** çoktan seçmeli (OSM→TR, TR→OSM), benzer harf ayrımı,
   serbest transliterasyon yazma (toleranslı karşılaştırıcı), eşleştirme, satır okuma.
 - **Oyunlaştırma:** can (hearts), XP + seviye, günlük seri (streak) + dondurucu,
-  haftalık lig, maskot "Kamış", ses efektleri, kutlama animasyonları.
+  haftalık lig, maskot "Mürekkep", ses efektleri, kutlama animasyonları.
 - **FSRS aralıklı tekrar:** vadesi gelen kartlardan dinamik `review` dersleri.
 - **Local-first:** içerik + ilerleme cihazda (Drift/SQLite). Firebase yalnızca
   lig + yedek için, **feature flag arkasında** — backend olmadan da tam çalışır.

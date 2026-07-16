@@ -82,7 +82,8 @@ Osmanlıca uygulaması olmak.
 - **Haftalık lig:** Firestore'da 20-30 kişilik kümeler, haftalık XP sıralaması,
   üst dilim yükselir / alt dilim düşer (Bronz → Elmas, 5 kademe). Cloud Function
   pazartesi 00:00 UTC'de yeniler.
-- **Maskot:** kamış kalem karakteri "Kamış". Durumlar: normal/kutlama/üzgün/uyuyan.
+- **Maskot:** mürekkep hokkası karakteri "Mürekkep" (Figma: "Osmanlıca
+  E-Learning — Mürekkep Maskot"). Durumlar: normal/kutlama/üzgün/uyuyan.
   Kod tarafında `MascotState` enum'u ile soyutlanır.
 - **Ses efektleri** ve **kutlama animasyonları**; Ayarlar'dan kapatılabilir.
 
