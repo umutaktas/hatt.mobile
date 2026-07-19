@@ -6,15 +6,7 @@ import '../../../core/mascot/mascot_view.dart';
 import '../../../core/providers/app_providers.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../l10n/generated/app_localizations.dart';
-import '../data/firestore_league_service.dart';
 import '../data/league_service.dart';
-
-final leagueServiceProvider = Provider<LeagueService>((ref) {
-  final flags = ref.watch(featureFlagsProvider);
-  return flags.firebaseEnabled
-      ? FirestoreLeagueService()
-      : const OfflineLeagueService();
-});
 
 final leagueSnapshotProvider = FutureProvider<LeagueSnapshot?>(
   (ref) => ref.watch(leagueServiceProvider).currentSnapshot(),
@@ -29,7 +21,7 @@ class LeagueScreen extends ConsumerWidget {
     final flags = ref.watch(featureFlagsProvider);
     return Scaffold(
       appBar: AppBar(title: Text(l10n.leagueTitle)),
-      body: !flags.firebaseEnabled
+      body: !flags.backendEnabled
           ? _OfflineState(l10n: l10n)
           : ref.watch(leagueSnapshotProvider).when(
                 loading: () => const Center(child: CircularProgressIndicator()),

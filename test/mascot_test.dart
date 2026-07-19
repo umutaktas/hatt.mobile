@@ -35,8 +35,11 @@ void main() {
     expect(blinked, isTrue, reason: 'mascot never blinked within 6s');
 
     await tester.pump(const Duration(milliseconds: 200));
-    expect(asset(), MascotState.normal.asset,
-        reason: 'eyes should reopen after the blink');
+    expect(
+      asset(),
+      MascotState.normal.asset,
+      reason: 'eyes should reopen after the blink',
+    );
 
     // Dispose the widget so the pending blink timer is cancelled.
     await tester.pumpWidget(const SizedBox());

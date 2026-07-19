@@ -10,6 +10,7 @@ import '../../path/data/path_models.dart';
 import '../../path/data/path_repository.dart';
 import '../../profile/data/user_repository.dart';
 import '../../review/data/review_repository.dart';
+import '../../league/data/api_league_service.dart';
 import '../data/lesson_repository.dart';
 import '../domain/exercise.dart';
 
@@ -158,6 +159,7 @@ class LessonController extends StateNotifier<LessonState> {
       hearts: heartsState.current,
       unlimitedHearts: userRow.premium,
     );
+    _ref.read(telemetryServiceProvider).trackEvent('lesson_started', {'node_id': node.id});
   }
 
   /// Grades the current exercise. [reviewKeys] are the FSRS items it exercised.
@@ -302,11 +304,42 @@ class LessonController extends StateNotifier<LessonState> {
     }
 
     // Today's activity is registered — push the streak reminder to tomorrow.
-    if (_ref.read(featureFlagsProvider).localNotificationsEnabled) {
+    final flags = _ref.read(featureFlagsProvider);
+    if (flags.localNotificationsEnabled) {
       await _ref
           .read(streakReminderProvider)
           .reschedule(await _users.current(), now: _now);
     }
+
+    // Server-verified league XP & cloud progress backup (CLAUDE.md §2, docs/ANALIZ-BACKEND-2026-07-16.md)
+    if (flags.backendEnabled && node.id != practiceNodeId) {
+      try {
+        final leagueService = _ref.read(leagueServiceProvider);
+        if (leagueService is ApiLeagueService) {
+          final idempotencyKey =
+              'complete_${node.id}_${_now.millisecondsSinceEpoch}';
+          await leagueService.completeLesson(
+            nodeId: node.id,
+            totalExercises: state.exercises.length,
+            correctFirstTry: state.correctFirstTry,
+            totalWrong: state.wrong,
+            maxCombo: state.longestCombo,
+            idempotencyKey: idempotencyKey,
+          );
+        }
+
+        if (flags.cloudBackupEnabled) {
+          // Fire-and-forget background backup sync
+          _ref.read(progressSyncServiceProvider).uploadProgress();
+        }
+      } catch (_) {}
+    }
+
+    _ref.read(telemetryServiceProvider).trackEvent('lesson_completed', {
+      'node_id': node.id,
+      'xp': '$xp',
+      'stars': '$stars',
+    });
 
     state = state.copyWith(
       phase: LessonPhase.finished,

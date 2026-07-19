@@ -1,19 +1,24 @@
-/// Compile-time / runtime feature flags (CLAUDE.md §2, §9).
+/// Compile-time / runtime feature flags (CLAUDE.md §2, §9, docs/ANALIZ-BACKEND-2026-07-16.md).
 ///
-/// The backend (Firebase) and in-app purchases (RevenueCat) are gated so the
-/// app boots and is fully usable offline. When [firebaseEnabled] is false the
+/// The backend (.NET 9 + PostgreSQL) and in-app purchases (RevenueCat) are gated so the
+/// app boots and is fully usable offline. When [backendEnabled] is false the
 /// League tab shows a "bağlantı yok" state and progress stays local-only.
 class FeatureFlags {
   const FeatureFlags({
-    this.firebaseEnabled = false,
+    this.backendEnabled = true,
+    this.leagueEnabled = true,
+    this.cloudBackupEnabled = true,
     this.purchasesEnabled = false,
     this.localNotificationsEnabled = true,
   });
 
-  /// Enable once `flutterfire configure` has produced firebase_options.dart and
-  /// the guarded Firebase implementations are wired in (see
-  /// lib/features/league/data/firestore_league_service.dart).
-  final bool firebaseEnabled;
+  /// Gated .NET 9 API integration.
+  final bool backendEnabled;
+  final bool leagueEnabled;
+  final bool cloudBackupEnabled;
+
+  /// Compatibility getter for legacy references.
+  bool get firebaseEnabled => backendEnabled;
 
   /// Enable once RevenueCat products are configured. Paywall is visible either
   /// way; only the purchase call is gated.

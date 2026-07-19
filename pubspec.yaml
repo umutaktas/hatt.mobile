@@ -36,6 +36,10 @@ dependencies:
   intl: any
 
   timezone: any
+
+  # Networking & Auth Persistence for .NET API
+  http: ^1.2.1
+  shared_preferences: ^2.2.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
