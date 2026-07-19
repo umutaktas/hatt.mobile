@@ -94,17 +94,15 @@ class _MascotViewState extends State<MascotView> {
 
     if (animate) {
       image = switch (widget.state) {
-        // High-energy, joyful entrance bounce with squash/stretch & cheerful tilt!
+        // Gentle, smooth idle bob.
         MascotState.normal => image
             .animate(onPlay: (c) => c.repeat(reverse: true))
-            .moveY(begin: 4, end: -18, duration: 450.ms, curve: Curves.easeOutQuad)
-            .scaleXY(begin: 0.94, end: 1.08, duration: 450.ms, curve: Curves.easeOutQuad)
-            .rotate(begin: -0.035, end: 0.035, duration: 900.ms, curve: Curves.easeInOut),
-        // Energetic celebration bounce with a slight wiggle.
+            .moveY(begin: 0, end: -6, duration: 1200.ms, curve: Curves.easeInOut),
+        // Energetic celebration bounce with a happy subtle scale.
         MascotState.celebrating => image
             .animate(onPlay: (c) => c.repeat(reverse: true))
-            .scaleXY(begin: 1.0, end: 1.06, duration: 420.ms, curve: Curves.easeInOut)
-            .rotate(begin: -0.015, end: 0.015, duration: 840.ms, curve: Curves.easeInOut),
+            .moveY(begin: 0, end: -6, duration: 900.ms, curve: Curves.easeInOut)
+            .scaleXY(begin: 1.0, end: 1.04, duration: 900.ms, curve: Curves.easeInOut),
         // Slow, consoling sway.
         MascotState.sad => image
             .animate(onPlay: (c) => c.repeat(reverse: true))

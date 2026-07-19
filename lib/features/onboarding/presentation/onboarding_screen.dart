@@ -77,7 +77,7 @@ class _Intro extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const MascotView(state: MascotState.normal, size: 160),
+          const MascotView(state: MascotState.celebrating, size: 210),
           const SizedBox(height: 24),
           const OttomanText('خط', size: OttomanTextSize.reading,
               color: AppColors.gold,),
