@@ -1,70 +1,277 @@
 [
   {
-    "id": "p-gulistan",
-    "title": "Gülistan'dan",
-    "level": 2,
-    "genre": "edebi",
-    "imageAssetPath": null,
-    "lines": [
-      {
-        "id": "p-gulistan-1",
-        "ordinal": 0,
-        "ottoman": "هر نفس که فرو می‌رود",
-        "transliteration": "her nefes ki fürû mî-reved",
-        "simplifiedTr": "İçeri giren her nefes"
-      },
-      {
-        "id": "p-gulistan-2",
-        "ordinal": 1,
-        "ottoman": "ممد حیات است",
-        "transliteration": "mümidd-i hayât est",
-        "simplifiedTr": "hayatı uzatır"
-      }
-    ]
-  },
-  {
-    "id": "p-kitabe",
-    "title": "Bir Çeşme Kitabesi",
+    "id": "p-2w-1",
+    "title": "İki Kelimelik Kelam: Maşallah",
     "level": 1,
     "genre": "kitabe",
     "imageAssetPath": null,
     "lines": [
       {
-        "id": "p-kitabe-1",
+        "id": "p-2w-1-1",
         "ordinal": 0,
-        "ottoman": "ماشاء الله",
-        "transliteration": "mâşâallah",
+        "ottoman": "مَا شَاءَ اللَّه",
+        "transliteration": "maşallah",
         "simplifiedTr": "Maşallah"
       },
       {
-        "id": "p-kitabe-2",
+        "id": "p-2w-1-2",
         "ordinal": 1,
-        "ottoman": "صاحب الخیرات",
-        "transliteration": "sâhibü'l-hayrât",
+        "ottoman": "صَاحِبُ الْخَيْرَاتِ",
+        "transliteration": "sahibül hayrat",
         "simplifiedTr": "Hayır sahibi"
       }
     ]
   },
   {
-    "id": "p-siir",
-    "title": "Bir Beyit",
+    "id": "p-2w-2",
+    "title": "Kitabe Yazıları: İlm-i Nafi",
+    "level": 1,
+    "genre": "kitabe",
+    "imageAssetPath": null,
+    "lines": [
+      {
+        "id": "p-2w-2-1",
+        "ordinal": 0,
+        "ottoman": "عِلْمُ نَافِع",
+        "transliteration": "ilm-i nafi",
+        "simplifiedTr": "Faydalı ilim"
+      },
+      {
+        "id": "p-2w-2-2",
+        "ordinal": 1,
+        "ottoman": "وَطَنِ عِزِيز",
+        "transliteration": "vatan-ı aziz",
+        "simplifiedTr": "Aziz vatan"
+      }
+    ]
+  },
+  {
+    "id": "p-3w-1",
+    "title": "Üç Kelimelik Hikmet: Edeb Ya Hu",
     "level": 2,
+    "genre": "edebi",
+    "imageAssetPath": null,
+    "lines": [
+      {
+        "id": "p-3w-1-1",
+        "ordinal": 0,
+        "ottoman": "اَدَبْ يَا هُﻮ",
+        "transliteration": "edeb ya hu",
+        "simplifiedTr": "Edep ya hu"
+      },
+      {
+        "id": "p-3w-1-2",
+        "ordinal": 1,
+        "ottoman": "صَبْرْ اِلَه زَفَرْ",
+        "transliteration": "sabır ile zafer",
+        "simplifiedTr": "Sabır ile zafer kazanılır"
+      }
+    ]
+  },
+  {
+    "id": "p-3w-2",
+    "title": "Kelam-ı Kibar: İlim ve Amel",
+    "level": 2,
+    "genre": "edebi",
+    "imageAssetPath": null,
+    "lines": [
+      {
+        "id": "p-3w-2-1",
+        "ordinal": 0,
+        "ottoman": "عِلْمْ بِلاَ عَمَلْ",
+        "transliteration": "ilm bila amel",
+        "simplifiedTr": "Amelsiz ilim"
+      },
+      {
+        "id": "p-3w-2-2",
+        "ordinal": 1,
+        "ottoman": "حَقّ يار مَدَدْ",
+        "transliteration": "hak yar meded",
+        "simplifiedTr": "Hak yar ve yardımcı olsun"
+      }
+    ]
+  },
+  {
+    "id": "p-4w-1",
+    "title": "Dört Kelimelik Beyit: Gülistan",
+    "level": 3,
     "genre": "siir",
     "imageAssetPath": null,
     "lines": [
       {
-        "id": "p-siir-1",
+        "id": "p-4w-1-1",
         "ordinal": 0,
-        "ottoman": "سنی سویورم",
-        "transliteration": "seni seviyorum",
-        "simplifiedTr": "Seni seviyorum"
+        "ottoman": "هَر نَفَسْ كِه فَرُﻭ مِى‌رَوَدْ",
+        "transliteration": "her nefes ki fürû mî-reved",
+        "simplifiedTr": "İçeri giren her nefes"
       },
       {
-        "id": "p-siir-2",
+        "id": "p-4w-1-2",
         "ordinal": 1,
-        "ottoman": "عمر بویو",
-        "transliteration": "ömür boyu",
-        "simplifiedTr": "Ömür boyunca"
+        "ottoman": "مُمِدَّ حَيَاتْ اَسْتْ",
+        "transliteration": "mümidd-i hayât est",
+        "simplifiedTr": "Hayatı uzatır"
+      }
+    ]
+  },
+  {
+    "id": "p-4w-2",
+    "title": "Darb-ı Mesel: Sabır Anahtarı",
+    "level": 3,
+    "genre": "edebi",
+    "imageAssetPath": null,
+    "lines": [
+      {
+        "id": "p-4w-2-1",
+        "ordinal": 0,
+        "ottoman": "اَلصَّبْرُ مِفْتَاحُ الْفَرَجِ وَالْفَلاحِ",
+        "transliteration": "es-sabru miftahul ferec",
+        "simplifiedTr": "Sabır ferahlık ve kurtuluşun anahtarıdır"
+      },
+      {
+        "id": "p-4w-2-2",
+        "ordinal": 1,
+        "ottoman": "عِلْمْ عَقْلِى زِيَادَه اَيْلَر",
+        "transliteration": "ilm aklı ziyade eyler",
+        "simplifiedTr": "İlim aklı çoğaltır ve nurlandırır"
+      }
+    ]
+  },
+  {
+    "id": "p-para-1",
+    "title": "Kısa Paragraf Okuması: İstanbul Şehri",
+    "level": 4,
+    "genre": "edebi",
+    "imageAssetPath": null,
+    "lines": [
+      {
+        "id": "p-para-1-1",
+        "ordinal": 0,
+        "ottoman": "إِسْتَانْبُولْ كُوزَلْ بِيرْ شَهْرْدِرْ",
+        "transliteration": "İstanbul güzel bir şehirdir",
+        "simplifiedTr": "İstanbul güzel bir şehirdir."
+      },
+      {
+        "id": "p-para-1-2",
+        "ordinal": 1,
+        "ottoman": "بُو شَهْرْدَه تَارِيخِي مَسَاجِدْ وَجَوَامِعْ وَكِتَابَلَرْ بُولُونُورْ",
+        "transliteration": "bu şehirde tarihi mesacid ve cevami ve kitabeler bulunur",
+        "simplifiedTr": "Bu şehirde tarihi camiler ve kitabeler bulunur."
+      }
+    ]
+  },
+  {
+    "id": "p-para-2",
+    "title": "Kısa Paragraf Okuması: İlim ve Gençlik",
+    "level": 5,
+    "genre": "edebi",
+    "imageAssetPath": null,
+    "lines": [
+      {
+        "id": "p-para-2-1",
+        "ordinal": 0,
+        "ottoman": "عِلْمْ اوُقُومَاقْ وَيَازْمَاقْ كَنچْلِكْدَه بِيرْ نُورْدُرْ",
+        "transliteration": "ilm okumak ve yazmak gençlikte bir nurdur",
+        "simplifiedTr": "İlim okumak ve yazmak gençlikte bir nurdur."
+      },
+      {
+        "id": "p-para-2-2",
+        "ordinal": 1,
+        "ottoman": "اِنْسَانْ عِلْمْ اِيلَه فَرَاحْ بُولُورْ وَمُوَفَّقْ اوُلُورْ",
+        "transliteration": "insan ilm ile ferah bulur ve muvaffak olur",
+        "simplifiedTr": "İnsan ilim ile ferah bulur ve muvaffak olur."
+      }
+    ]
+  },
+  {
+    "id": "p-orucbey",
+    "title": "Oruç Bey Tarihi: Tevârîh-i Âl-i Osmân",
+    "level": 4,
+    "genre": "edebi",
+    "imageAssetPath": null,
+    "lines": [
+      {
+        "id": "p-orucbey-1",
+        "ordinal": 0,
+        "ottoman": "بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ. تَوَارِيخِ آلِ عُثْمَان",
+        "transliteration": "bismillahir rahmanir rahim tevarih-i al-i osman",
+        "simplifiedTr": "Bismillahirrahmanirrahim. Osmanlı Hanedanı Tarihi."
+      },
+      {
+        "id": "p-orucbey-2",
+        "ordinal": 1,
+        "ottoman": "عُثْمَان غَازِي عَدَالَتْ وَشَجَاعَتْ اِيلَه حُكْمِ اَيْلَدِي",
+        "transliteration": "Osman Gazi adalet ve şecaat ile hükmeyledi",
+        "simplifiedTr": "Osman Gazi adalet ve cesaret ile hükmetti."
+      }
+    ]
+  },
+  {
+    "id": "p-pecevi",
+    "title": "Peçevi Tarihi: İlim ve Matbuat",
+    "level": 5,
+    "genre": "edebi",
+    "imageAssetPath": null,
+    "lines": [
+      {
+        "id": "p-pecevi-1",
+        "ordinal": 0,
+        "ottoman": "كُتُبِ نَافِعَه اوُقُومَاقْ عَقْلِ زِيَادَه اَيْلَر",
+        "transliteration": "kutub-i nafiye okumak aklı ziyade eyler",
+        "simplifiedTr": "Faydalı kitaplar okumak aklı çoğaltır."
+      },
+      {
+        "id": "p-pecevi-2",
+        "ordinal": 1,
+        "ottoman": "مَطْبَعَه وَكِتَابَتْ مَدَنِيَّتِ تَرَقِّي اَيْلَتْدِي",
+        "transliteration": "matbaa ve kitabet medeniyeti terakki eyletti",
+        "simplifiedTr": "Matbaa ve yazım sanatı medeniyeti ilerletti."
+      }
+    ]
+  },
+  {
+    "id": "p-mezar-1",
+    "title": "Mezar Taşı Okuması: Hüvel Bâkî",
+    "level": 3,
+    "genre": "kitabe",
+    "imageAssetPath": null,
+    "lines": [
+      {
+        "id": "p-mezar-1-1",
+        "ordinal": 0,
+        "ottoman": "هُوَ الْبَاقِي. مَرْحُوم وَمَغْفُور",
+        "transliteration": "hüvel baki merhum ve magfur",
+        "simplifiedTr": "O Bâkidir. Merhum ve bağışlanmış olan."
+      },
+      {
+        "id": "p-mezar-1-2",
+        "ordinal": 1,
+        "ottoman": "رُوحُونَه فَاتِحَه. صَاحِبُ الْخَيْرَاتِ",
+        "transliteration": "ruhuna fatiha sahibul hayrat",
+        "simplifiedTr": "Ruhuna Fatiha. Hayır sahibi."
+      }
+    ]
+  },
+  {
+    "id": "p-ebced-1",
+    "title": "Ebced Hesabı: Tarih Düşürme Sanatı",
+    "level": 4,
+    "genre": "edebi",
+    "imageAssetPath": null,
+    "lines": [
+      {
+        "id": "p-ebced-1-1",
+        "ordinal": 0,
+        "ottoman": "بِسْمِ اللَّهِ ٧٨٦. إِسْلاَمْ ١٩٢",
+        "transliteration": "bismillah 786 islam 192",
+        "simplifiedTr": "Bismillah ebcedi 786, İslam ebcedi 192."
+      },
+      {
+        "id": "p-ebced-1-2",
+        "ordinal": 1,
+        "ottoman": "مُحَمَّدْ ٩٢. اللَّه ٦٦",
+        "transliteration": "muhammed 92 allah 66",
+        "simplifiedTr": "Muhammed ebcedi 92, Allah ebcedi 66."
       }
     ]
   }

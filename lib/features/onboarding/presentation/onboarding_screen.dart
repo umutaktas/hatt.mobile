@@ -82,7 +82,7 @@ class _Intro extends StatelessWidget {
           const OttomanText('خط', size: OttomanTextSize.reading,
               color: AppColors.gold,),
           const SizedBox(height: 12),
-          Text('Hatt', style: Theme.of(context).textTheme.displaySmall),
+          Text('Mürekkep', style: Theme.of(context).textTheme.displaySmall),
           const SizedBox(height: 8),
           Text(
             'Osmanlıca okumayı adım adım, gerçek tarihi metinlerle öğren.',
@@ -112,7 +112,7 @@ class _ConsentPage extends StatelessWidget {
               style: Theme.of(context).textTheme.headlineSmall,),
           const SizedBox(height: 16),
           const Text(
-            'Hatt varsayılan olarak anonim çalışır. Kişisel veri toplanmaz. '
+            'Mürekkep varsayılan olarak anonim çalışır. Kişisel veri toplanmaz. '
             'İlerlemen cihazında saklanır. İstersen daha sonra hesabını '
             'e-posta ile yedekleyebilirsin; o durumda yalnızca e-posta adresin '
             'saklanır.\n\n'

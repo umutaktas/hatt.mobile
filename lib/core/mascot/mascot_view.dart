@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
+import '../theme/app_colors.dart';
 import 'mascot_state.dart';
 
 /// Renders the mascot for a given [MascotState] with a state-specific idle
@@ -115,7 +116,7 @@ class _MascotViewState extends State<MascotView> {
       };
     }
 
-    return SizedBox(
+    final Widget renderedMascot = SizedBox(
       width: widget.size,
       height: widget.size,
       child: widget.state == MascotState.sleeping && animate
@@ -132,6 +133,38 @@ class _MascotViewState extends State<MascotView> {
             )
           : image,
     );
+
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    if (isDark) {
+      return Stack(
+        alignment: Alignment.center,
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            width: widget.size * 0.75,
+            height: widget.size * 0.75,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.goldLight.withValues(alpha: 0.4),
+                  blurRadius: widget.size * 0.35,
+                  spreadRadius: widget.size * 0.1,
+                ),
+                BoxShadow(
+                  color: Colors.white.withValues(alpha: 0.2),
+                  blurRadius: widget.size * 0.2,
+                  spreadRadius: widget.size * 0.05,
+                ),
+              ],
+            ),
+          ),
+          renderedMascot,
+        ],
+      );
+    }
+
+    return renderedMascot;
   }
 }
 

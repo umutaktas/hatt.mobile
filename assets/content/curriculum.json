@@ -1,30 +1,743 @@
 {
-  "version": 1,
+  "version": 9,
   "units": [
     {
       "id": "unit-1",
-      "title": "Elifbâ — Temel Harfler",
+      "title": "Ünite 1: Elifbâ ve Harfler",
       "nodes": [
-        { "id": "u1-l1", "type": "letter", "title": "Elif · Be · Pe · Te", "contentRefs": ["elif", "be", "pe", "te"] },
-        { "id": "u1-l2", "type": "letter", "title": "Se · Cim · Çim · Ha", "contentRefs": ["se", "cim", "chim", "ha"] },
-        { "id": "u1-l3", "type": "letter", "title": "Hı · Dal · Zel · Re", "contentRefs": ["hi", "dal", "zel", "re"] },
-        { "id": "u1-r1", "type": "review", "title": "Tekrar", "contentRefs": [] },
-        { "id": "u1-l4", "type": "letter", "title": "Ze · Je · Sin · Şın", "contentRefs": ["ze", "je", "sin", "shin"] },
-        { "id": "u1-l5", "type": "letter", "title": "Sad · Dad · Tı · Zı", "contentRefs": ["sad", "dad", "ti", "zi"] },
-        { "id": "u1-cp", "type": "checkpoint", "title": "1. Ünite Sınavı", "contentRefs": ["elif", "be", "te", "cim", "dal", "re", "sin", "sad"] }
+        {
+          "id": "u1-l1",
+          "type": "letter",
+          "title": "Elif, Be, Pe, Te, Se",
+          "contentRefs": [
+            "elif",
+            "be",
+            "pe",
+            "te",
+            "se"
+          ]
+        },
+        {
+          "id": "u1-l2",
+          "type": "letter",
+          "title": "Cim, Çim, Hı, Hı",
+          "contentRefs": [
+            "cim",
+            "chim",
+            "ha",
+            "hi"
+          ]
+        },
+        {
+          "id": "u1-l3",
+          "type": "letter",
+          "title": "Dal, Zel, Re, Ze, Je",
+          "contentRefs": [
+            "dal",
+            "zel",
+            "re",
+            "ze",
+            "je"
+          ]
+        },
+        {
+          "id": "u1-cp",
+          "type": "checkpoint",
+          "title": "1. Ünite Sınavı",
+          "contentRefs": [
+            "elif",
+            "cim",
+            "dal"
+          ]
+        }
       ]
     },
     {
       "id": "unit-2",
-      "title": "İlk Kelimeler",
+      "title": "Ünite 2: İlk Kelimeler ve Mektep",
       "nodes": [
-        { "id": "u2-l1", "type": "vocab", "title": "Mektep Kelimeleri", "contentRefs": ["kitap", "kalem", "mektep", "ilim"] },
-        { "id": "u2-l2", "type": "vocab", "title": "Şehir ve Vatan", "contentRefs": ["sehir", "selam", "zaman", "vatan"] },
-        { "id": "u2-r1", "type": "review", "title": "Tekrar", "contentRefs": [] },
-        { "id": "u2-l3", "type": "vocab", "title": "Gönül Kelimeleri", "contentRefs": ["gul", "lale", "yar", "can"] },
-        { "id": "u2-l4", "type": "reading", "title": "Kitabe Okuma", "contentRefs": ["p-kitabe"] },
-        { "id": "u2-l5", "type": "vocab", "title": "Nur ve Sabır", "contentRefs": ["dost", "nur", "sabir", "fikir"] },
-        { "id": "u2-cp", "type": "checkpoint", "title": "2. Ünite Sınavı", "contentRefs": ["kitap", "kalem", "sehir", "vatan", "gul", "yar", "nur", "fikir"] }
+        {
+          "id": "u2-l1",
+          "type": "vocab",
+          "title": "Mektep ve İlim",
+          "contentRefs": [
+            "kitap",
+            "kalem",
+            "mektep",
+            "ilim",
+            "ders",
+            "sayfa"
+          ]
+        },
+        {
+          "id": "u2-l2",
+          "type": "vocab",
+          "title": "Şehir ve Vatan",
+          "contentRefs": [
+            "sehir",
+            "selam",
+            "zaman",
+            "vatan",
+            "millet",
+            "asker"
+          ]
+        },
+        {
+          "id": "u2-r-line",
+          "type": "reading",
+          "title": "2 Kelimelik Okuma (Maşallah)",
+          "contentRefs": [
+            "p-2w-1"
+          ]
+        },
+        {
+          "id": "u2-cp",
+          "type": "checkpoint",
+          "title": "2. Ünite Sınavı",
+          "contentRefs": [
+            "kitap",
+            "sehir",
+            "mektep"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit-3",
+      "title": "Ünite 3: Osmanlı Rakamları ve Para",
+      "nodes": [
+        {
+          "id": "u3-l1",
+          "type": "vocab",
+          "title": "Doğu Arap Rakamları (١ - ١٠)",
+          "contentRefs": [
+            "rakam_1",
+            "rakam_2",
+            "rakam_3",
+            "rakam_5",
+            "rakam_10"
+          ]
+        },
+        {
+          "id": "u3-l2",
+          "type": "vocab",
+          "title": "Yüzler, Binler ve Osmanlı Parası",
+          "contentRefs": [
+            "rakam_100",
+            "rakam_1000",
+            "para_akce",
+            "para_kurus",
+            "para_mecidiye"
+          ]
+        },
+        {
+          "id": "u3-cp",
+          "type": "checkpoint",
+          "title": "3. Ünite Sınavı",
+          "contentRefs": [
+            "rakam_1",
+            "rakam_100",
+            "para_akce"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit-4",
+      "title": "Ünite 4: Tabiat ve Elementler",
+      "nodes": [
+        {
+          "id": "u4-l1",
+          "type": "vocab",
+          "title": "Gök ve Zaman",
+          "contentRefs": [
+            "gunes",
+            "yildiz",
+            "gece",
+            "gunduz",
+            "ay",
+            "bulut"
+          ]
+        },
+        {
+          "id": "u4-l2",
+          "type": "vocab",
+          "title": "Su, Toprak ve Elementler",
+          "contentRefs": [
+            "su",
+            "toprak",
+            "hava",
+            "ates",
+            "ruzgar",
+            "deniz"
+          ]
+        },
+        {
+          "id": "u4-r-line",
+          "type": "reading",
+          "title": "3 Kelimelik Okuma (Edep Ya Hu)",
+          "contentRefs": [
+            "p-3w-1"
+          ]
+        },
+        {
+          "id": "u4-cp",
+          "type": "checkpoint",
+          "title": "4. Ünite Sınavı",
+          "contentRefs": [
+            "gunes",
+            "su",
+            "toprak"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit-5",
+      "title": "Ünite 5: Ebced Hesabı ve Tarih Düşürme",
+      "nodes": [
+        {
+          "id": "u5-l1",
+          "type": "vocab",
+          "title": "Harflerin Ebced Değerleri",
+          "contentRefs": [
+            "ebced_bismillah",
+            "ebced_islam",
+            "ebced_muhammed",
+            "ebced_allah",
+            "ebced_ali"
+          ]
+        },
+        {
+          "id": "u5-r1",
+          "type": "reading",
+          "title": "Tarih Düşürme Okuması",
+          "contentRefs": [
+            "p-ebced-1"
+          ]
+        },
+        {
+          "id": "u5-cp",
+          "type": "checkpoint",
+          "title": "5. Ünite Sınavı",
+          "contentRefs": [
+            "ebced_bismillah",
+            "ebced_islam"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit-6",
+      "title": "Ünite 6: Şehir ve Mimari",
+      "nodes": [
+        {
+          "id": "u6-l1",
+          "type": "vocab",
+          "title": "Saray ve Kale",
+          "contentRefs": [
+            "saray",
+            "kale",
+            "kule",
+            "kapi",
+            "pencere",
+            "kosk"
+          ]
+        },
+        {
+          "id": "u6-l2",
+          "type": "vocab",
+          "title": "Hane ve Çeşme",
+          "contentRefs": [
+            "hane",
+            "cesme",
+            "duvar",
+            "tavan",
+            "taban",
+            "sofra"
+          ]
+        },
+        {
+          "id": "u6-cp",
+          "type": "checkpoint",
+          "title": "6. Ünite Sınavı",
+          "contentRefs": [
+            "saray",
+            "hane",
+            "cesme"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit-7",
+      "title": "Ünite 7: Tasavvuf ve Ahlâk-ı Alâî",
+      "nodes": [
+        {
+          "id": "u7-l1",
+          "type": "vocab",
+          "title": "Hikmet ve Ma'rifet",
+          "contentRefs": [
+            "hakikat",
+            "hikmet",
+            "rahmet",
+            "kudret",
+            "sihhat",
+            "adab"
+          ]
+        },
+        {
+          "id": "u7-l2",
+          "type": "vocab",
+          "title": "Ahlâk ve Hüsn-i Niyet",
+          "contentRefs": [
+            "ihlas",
+            "takva",
+            "sukur",
+            "riza",
+            "husniniyet",
+            "tavazu",
+            "iffet",
+            "edep"
+          ]
+        },
+        {
+          "id": "u7-cp",
+          "type": "checkpoint",
+          "title": "7. Ünite Sınavı (Tasavvuf & Ahlâk)",
+          "contentRefs": [
+            "hikmet",
+            "ihlas",
+            "takva"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit-8",
+      "title": "Ünite 8: Tanzimat ve Osmanlı Aydınları",
+      "nodes": [
+        {
+          "id": "u8-l1",
+          "type": "vocab",
+          "title": "Hürriyet ve Vatan Şairleri",
+          "contentRefs": [
+            "hurriyet",
+            "vatan",
+            "millet",
+            "fazilet",
+            "samimiyet",
+            "cesaret",
+            "asalet"
+          ]
+        },
+        {
+          "id": "u8-l2",
+          "type": "vocab",
+          "title": "Mütefekkirler ve Cemiyet",
+          "contentRefs": [
+            "mutefekkir",
+            "muharrir",
+            "gazete",
+            "marifet",
+            "mesuliyet",
+            "hürmet",
+            "şefkat"
+          ]
+        },
+        {
+          "id": "u8-cp",
+          "type": "checkpoint",
+          "title": "8. Ünite Sınavı (Tanzimat Aydınları)",
+          "contentRefs": [
+            "hurriyet",
+            "mutefekkir",
+            "gazete"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit-9",
+      "title": "Ünite 9: Mezîdünfîh Masdarlar I (İnf'âl & İfti'âl)",
+      "nodes": [
+        {
+          "id": "u9-l1",
+          "type": "vocab",
+          "title": "İnf'âl ve İfti'âl Kalıpları",
+          "contentRefs": [
+            "infitar",
+            "inkisaf",
+            "intihab",
+            "ihtimam"
+          ]
+        },
+        {
+          "id": "u9-cp",
+          "type": "checkpoint",
+          "title": "9. Ünite Sınavı",
+          "contentRefs": [
+            "infitar",
+            "intihab"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit-10",
+      "title": "Ünite 10: Mezîdünfîh Masdarlar II (İstif'âl & Tefe''ül)",
+      "nodes": [
+        {
+          "id": "u10-l1",
+          "type": "vocab",
+          "title": "İstif'âl ve Tefe''ül Kalıpları",
+          "contentRefs": [
+            "istigfar",
+            "istikbal",
+            "tefekkur",
+            "tebessum"
+          ]
+        },
+        {
+          "id": "u10-cp",
+          "type": "checkpoint",
+          "title": "10. Ünite Sınavı",
+          "contentRefs": [
+            "istigfar",
+            "tefekkur"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit-11",
+      "title": "Ünite 11: Farsça Ön ve Son Ekler",
+      "nodes": [
+        {
+          "id": "u11-l1",
+          "type": "vocab",
+          "title": "Farsça Bî-, Nâ-, Ber- ve -Nâme Ekleri",
+          "contentRefs": [
+            "bihaber",
+            "namutedan",
+            "berguzar",
+            "hukukname",
+            "vatanperver",
+            "saraydar"
+          ]
+        },
+        {
+          "id": "u11-cp",
+          "type": "checkpoint",
+          "title": "11. Ünite Sınavı",
+          "contentRefs": [
+            "bihaber",
+            "hukukname"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit-12",
+      "title": "Ünite 12: Farsça İzafet ve Tamlamalar",
+      "nodes": [
+        {
+          "id": "u12-l1",
+          "type": "vocab",
+          "title": "Edebi Terkipler ve Tamlamalar",
+          "contentRefs": [
+            "lalezar",
+            "ibadethane",
+            "saraydar"
+          ]
+        },
+        {
+          "id": "u12-cp",
+          "type": "checkpoint",
+          "title": "12. Ünite Sınavı",
+          "contentRefs": [
+            "lalezar",
+            "ibadethane"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit-13",
+      "title": "Ünite 13: Bab-ı Âli ve Sadaret Diplomasisi",
+      "nodes": [
+        {
+          "id": "u13-l1",
+          "type": "vocab",
+          "title": "Bab-ı Âli ve Sadrazamlık",
+          "contentRefs": [
+            "sadrazam",
+            "vezir",
+            "pasa",
+            "meclis",
+            "divan",
+            "sancak",
+            "vilayet",
+            "sadaret"
+          ]
+        },
+        {
+          "id": "u13-l2",
+          "type": "vocab",
+          "title": "Ferman-ı Hümayun ve Tuğra",
+          "contentRefs": [
+            "ferman",
+            "berat",
+            "irade",
+            "mühür",
+            "tugra",
+            "tezkire",
+            "hüccet"
+          ]
+        },
+        {
+          "id": "u13-cp",
+          "type": "checkpoint",
+          "title": "13. Ünite Sınavı (Sadaret & Diplomatic)",
+          "contentRefs": [
+            "sadrazam",
+            "tugra",
+            "ferman"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit-14",
+      "title": "Ünite 14: Edebi Terkipler ve Şiir Dili",
+      "nodes": [
+        {
+          "id": "u14-l1",
+          "type": "vocab",
+          "title": "Gülzâr ve Şeb",
+          "contentRefs": [
+            "husn",
+            "ask_edebi",
+            "sevk",
+            "gulzar",
+            "sebi",
+            "dergah"
+          ]
+        },
+        {
+          "id": "u14-l2",
+          "type": "vocab",
+          "title": "Vuslat ve Firkat",
+          "contentRefs": [
+            "canan",
+            "vefa",
+            "cefa",
+            "firkat",
+            "vuslat",
+            "mehpare"
+          ]
+        },
+        {
+          "id": "u14-cp",
+          "type": "checkpoint",
+          "title": "14. Ünite Sınavı",
+          "contentRefs": [
+            "husn",
+            "vuslat"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit-15",
+      "title": "Ünite 15: Matbuat ve Gazete Dili I",
+      "nodes": [
+        {
+          "id": "u15-l1",
+          "type": "vocab",
+          "title": "Terakki ve Maarif",
+          "contentRefs": [
+            "terakki",
+            "maarif",
+            "matbuat",
+            "gazete",
+            "havadis",
+            "muharrir"
+          ]
+        },
+        {
+          "id": "u15-cp",
+          "type": "checkpoint",
+          "title": "15. Ünite Sınavı",
+          "contentRefs": [
+            "terakki",
+            "matbuat"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit-16",
+      "title": "Ünite 16: Matbuat ve Gazete Dili II",
+      "nodes": [
+        {
+          "id": "u16-l1",
+          "type": "vocab",
+          "title": "Cemiyet ve Siyaset",
+          "contentRefs": [
+            "cemiyet",
+            "iktisat",
+            "sanayi",
+            "irfan",
+            "mesrutiyet",
+            "kanun"
+          ]
+        },
+        {
+          "id": "u16-cp",
+          "type": "checkpoint",
+          "title": "16. Ünite Sınavı",
+          "contentRefs": [
+            "cemiyet",
+            "kanun"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit-17",
+      "title": "Ünite 17: Oruç Bey & Peçevi Tarihi",
+      "nodes": [
+        {
+          "id": "u17-l1",
+          "type": "vocab",
+          "title": "Tarih ve Kronikler",
+          "contentRefs": [
+            "tevarih",
+            "alevmeydan",
+            "gazavat",
+            "vak'anüvis",
+            "siyasetname"
+          ]
+        },
+        {
+          "id": "u17-r1",
+          "type": "reading",
+          "title": "Oruç Bey Tarihi Okuması",
+          "contentRefs": [
+            "p-orucbey"
+          ]
+        },
+        {
+          "id": "u17-cp",
+          "type": "checkpoint",
+          "title": "17. Ünite Sınavı",
+          "contentRefs": [
+            "tevarih",
+            "vak'anüvis"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit-18",
+      "title": "Ünite 18: Mezar Taşı ve Kitabe Okuma (Epigrafi)",
+      "nodes": [
+        {
+          "id": "u18-l1",
+          "type": "vocab",
+          "title": "Kitabe ve Hazire Terimleri",
+          "contentRefs": [
+            "huvelbaki",
+            "sahibulhayrat",
+            "ruhuna_fatiha",
+            "merhum",
+            "magfur",
+            "sarik"
+          ]
+        },
+        {
+          "id": "u18-r1",
+          "type": "reading",
+          "title": "Mezar Taşı Kitabesi Okuması",
+          "contentRefs": [
+            "p-mezar-1"
+          ]
+        },
+        {
+          "id": "u18-cp",
+          "type": "checkpoint",
+          "title": "18. Ünite Sınavı",
+          "contentRefs": [
+            "huvelbaki",
+            "sahibulhayrat"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit-19",
+      "title": "Ünite 19: Arşiv ve Ferman Metinleri",
+      "nodes": [
+        {
+          "id": "u19-l1",
+          "type": "vocab",
+          "title": "Divan-ı Hümayun ve Arşiv",
+          "contentRefs": [
+            "ferman_humayun",
+            "irade_seniyye",
+            "sadrazam",
+            "seyhulislam",
+            "vakfiye",
+            "hüccet"
+          ]
+        },
+        {
+          "id": "u19-cp",
+          "type": "checkpoint",
+          "title": "19. Ünite Sınavı",
+          "contentRefs": [
+            "ferman_humayun",
+            "sadrazam"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit-20",
+      "title": "Ünite 20: Divan-ı Hümayun ve Üstatlık Sınavı",
+      "nodes": [
+        {
+          "id": "u20-l1",
+          "type": "vocab",
+          "title": "Üstatlık Metinleri",
+          "contentRefs": [
+            "kapudan_derya",
+            "defterdar",
+            "reisulkuttab",
+            "sicil",
+            "tahrir",
+            "maliye"
+          ]
+        },
+        {
+          "id": "u20-r1",
+          "type": "reading",
+          "title": "İlim ve Gençlik Paragraf Okuması",
+          "contentRefs": [
+            "p-para-2"
+          ]
+        },
+        {
+          "id": "u20-cp",
+          "type": "checkpoint",
+          "title": "20. Ünite Sınavı (Üstatlık)",
+          "contentRefs": [
+            "kapudan_derya",
+            "defterdar",
+            "reisulkuttab"
+          ]
+        }
       ]
     }
   ]

@@ -101,7 +101,7 @@ abstract class AppLocalizations {
   /// Application name
   ///
   /// In tr, this message translates to:
-  /// **'Hatt'**
+  /// **'Mürekkep'**
   String get appTitle;
 
   /// No description provided for @pathTitle.

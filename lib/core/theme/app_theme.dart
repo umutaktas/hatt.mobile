@@ -20,7 +20,7 @@ abstract final class AppTheme {
       surface: isDark ? AppColors.parchmentDark : AppColors.parchment,
     );
 
-    final textTheme = GoogleFonts.interTextTheme(
+    final textTheme = GoogleFonts.plusJakartaSansTextTheme(
       ThemeData(brightness: brightness).textTheme,
     );
 

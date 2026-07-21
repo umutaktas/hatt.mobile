@@ -19,26 +19,92 @@ class PathScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pathAsync = ref.watch(pathProvider);
-    return Column(
-      children: [
-        const StatHeader(),
-        Expanded(
-          child: pathAsync.when(
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: (e, _) => Center(child: Text('Hata: $e')),
-            data: (units) => ListView.builder(
-              padding: const EdgeInsets.only(bottom: 48),
-              itemCount: units.length,
-              itemBuilder: (context, i) => _UnitSection(
-                unit: units[i],
-                isFirstUnit: i == 0,
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final backgroundGradient = isDark
+        ? const LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFF1B2430),
+              Color(0xFF141C27),
+              Color(0xFF0F151E),
+            ],
+          )
+        : const LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFFF9F5EC),
+              Color(0xFFF1E6D4),
+              Color(0xFFE6D6BD),
+            ],
+          );
+
+    return Container(
+      decoration: BoxDecoration(gradient: backgroundGradient),
+      child: Column(
+        children: [
+          const StatHeader(),
+          Expanded(
+            child: pathAsync.when(
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (e, _) => Center(child: Text('Hata: $e')),
+              data: (units) => Stack(
+                children: [
+                  Positioned.fill(
+                    child: CustomPaint(
+                      painter: _BackgroundPathPainter(isDark: isDark),
+                    ),
+                  ),
+                  ListView.builder(
+                    padding: const EdgeInsets.only(bottom: 48),
+                    itemCount: units.length,
+                    itemBuilder: (context, i) => _UnitSection(
+                      unit: units[i],
+                      isFirstUnit: i == 0,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
+}
+
+class _BackgroundPathPainter extends CustomPainter {
+  const _BackgroundPathPainter({required this.isDark});
+
+  final bool isDark;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = (isDark ? AppColors.gold : AppColors.goldLight).withValues(alpha: 0.08)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3.0;
+
+    final path = Path();
+    var y = 0.0;
+    while (y < size.height) {
+      path.moveTo(0, y);
+      path.quadraticBezierTo(
+        size.width / 2,
+        y + 100,
+        size.width,
+        y + 50,
+      );
+      y += 180;
+    }
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant _BackgroundPathPainter oldDelegate) =>
+      oldDelegate.isDark != isDark;
 }
 
 class _UnitSection extends StatelessWidget {
@@ -74,31 +140,47 @@ class _UnitSection extends StatelessWidget {
               (activeNodeIndex == -1 && node.status == NodeStatus.available);
           final showMascotNextToNode = isActive;
 
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            child: Stack(
-              alignment: Alignment.center,
-              clipBehavior: Clip.none,
-              children: [
-                Transform.translate(
-                  offset: Offset(xOffset, 0),
-                  child: _DuolingoNodeButton(
-                    node: node,
-                    isActive: isActive,
-                  ),
-                ),
+          final screenWidth = MediaQuery.of(context).size.width;
+          final center = screenWidth / 2;
+          final double mascotTargetLeft = xOffset >= 0
+              ? (center + xOffset - 123.0)
+              : (center + xOffset + 51.0);
+          final double safeMascotLeft = mascotTargetLeft.clamp(
+            16.0,
+            screenWidth - 72.0 - 16.0,
+          );
 
-                // Cheering Mascot sitting next to active node
-                if (showMascotNextToNode)
-                  Positioned(
-                    left: xOffset > 0 ? null : (MediaQuery.of(context).size.width / 2) + xOffset + 48,
-                    right: xOffset > 0 ? (MediaQuery.of(context).size.width / 2) - xOffset + 48 : null,
-                    child: const MascotView(
-                      state: MascotState.celebrating,
-                      size: 72,
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: SizedBox(
+              width: double.infinity,
+              height: 175,
+              child: Stack(
+                alignment: Alignment.center,
+                clipBehavior: Clip.none,
+                children: [
+                  Transform.translate(
+                    offset: Offset(xOffset, 0),
+                    child: _DuolingoNodeButton(
+                      node: node,
+                      isActive: isActive,
                     ),
                   ),
-              ],
+
+                  // Cheering Mascot aligned at vertical center of BAŞLA badge & floating in exact same oscillation
+                  if (showMascotNextToNode)
+                    Positioned(
+                      top: -18,
+                      left: safeMascotLeft,
+                      child: const MascotView(
+                        state: MascotState.celebrating,
+                        size: 72,
+                      )
+                          .animate(onPlay: (c) => c.repeat(reverse: true))
+                          .moveY(begin: 0, end: -4, duration: 800.ms, curve: Curves.easeInOut),
+                    ),
+                ],
+              ),
             ),
           );
         }),
@@ -275,7 +357,7 @@ class _DuolingoNodeButtonState extends State<_DuolingoNodeButton> {
               .animate(onPlay: (c) => c.repeat(reverse: true))
               .moveY(begin: 0, end: -4, duration: 800.ms, curve: Curves.easeInOut),
 
-        // 3D Pressable Node Container
+        // 3D Pressable Puffy Node Container
         GestureDetector(
           onTapDown: locked ? null : (_) => setState(() => _isPressed = true),
           onTapUp: locked ? null : (_) => setState(() => _isPressed = false),
@@ -287,44 +369,63 @@ class _DuolingoNodeButtonState extends State<_DuolingoNodeButton> {
                       builder: (_) => LessonScreen(node: node),
                     ),
                   ),
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 80),
-            width: buttonSize,
-            height: buttonSize,
-            margin: EdgeInsets.only(top: _isPressed ? 6 : 0),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: darkBaseColor, // Bottom 3D shadow layer
-            ),
-            child: Stack(
-              children: [
-                // Top 3D Face
-                Container(
-                  width: buttonSize,
-                  height: buttonSize - (_isPressed ? 2 : 7),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: baseColor,
-                    border: Border.all(color: Colors.white, width: 3.5),
-                    boxShadow: widget.isActive && !locked
-                        ? [
-                            BoxShadow(
-                              color: baseColor.withValues(alpha: 0.5),
-                              blurRadius: 12,
-                              spreadRadius: 2,
-                            ),
-                          ]
-                        : null,
+          child: AnimatedScale(
+            scale: _isPressed ? 0.91 : 1.0,
+            duration: const Duration(milliseconds: 100),
+            curve: Curves.easeOutBack,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 80),
+              width: buttonSize,
+              height: buttonSize + 6,
+              margin: EdgeInsets.only(top: _isPressed ? 8 : 0),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: darkBaseColor, // Deep 3D bottom skirt layer
+                boxShadow: [
+                  BoxShadow(
+                    color: darkBaseColor.withValues(alpha: 0.4),
+                    blurRadius: 8,
+                    offset: const Offset(0, 6),
                   ),
-                  child: Center(
-                    child: Icon(
-                      _iconFor(node.type, completed),
-                      color: Colors.white,
-                      size: 36,
+                ],
+              ),
+              child: Stack(
+                children: [
+                  // Top Puffy 3D Glossy Face
+                  Container(
+                    width: buttonSize,
+                    height: buttonSize - (_isPressed ? 2 : 10),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          Color.alphaBlend(Colors.white.withValues(alpha: 0.3), baseColor),
+                          baseColor,
+                        ],
+                      ),
+                      border: Border.all(color: Colors.white, width: 4.0),
+                      boxShadow: widget.isActive && !locked
+                          ? [
+                              BoxShadow(
+                                color: baseColor.withValues(alpha: 0.6),
+                                blurRadius: 16,
+                                spreadRadius: 3,
+                              ),
+                            ]
+                          : null,
+                    ),
+                    child: Center(
+                      child: Icon(
+                        _iconFor(node.type, completed),
+                        color: Colors.white,
+                        size: 38,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -367,10 +468,10 @@ class _DuolingoNodeButtonState extends State<_DuolingoNodeButton> {
   static IconData _iconFor(NodeType t, bool completed) {
     if (completed) return Icons.check_rounded;
     return switch (t) {
-      NodeType.letter => Icons.translate_rounded,
+      NodeType.letter => Icons.history_edu_rounded,
       NodeType.vocab => Icons.menu_book_rounded,
-      NodeType.reading => Icons.article_rounded,
-      NodeType.review => Icons.replay_rounded,
+      NodeType.reading => Icons.auto_stories_rounded,
+      NodeType.review => Icons.refresh_rounded,
       NodeType.checkpoint => Icons.workspace_premium_rounded,
     };
   }

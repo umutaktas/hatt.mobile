@@ -6,14 +6,20 @@ import 'package:flutter/material.dart';
 ///   * Everywhere: minimum 28sp.
 ///   * Reading exercises: 34–40sp.
 enum OttomanTextSize {
-  /// Inline / option chips — the hard floor, 28sp.
-  standard(28),
+  /// Option button chips — 36sp (fits inside choice buttons).
+  optionChip(36),
 
-  /// Prompts and headings, 32sp.
-  prompt(32),
+  /// Words / match cells — 30sp (equal size with Turkish text).
+  matchCell(30),
 
-  /// Reading-exercise lines, 38sp (within the 34–40 band).
-  reading(38);
+  /// Standard display — 72sp.
+  standard(72),
+
+  /// Prompts and headings, 90sp (3x).
+  prompt(90),
+
+  /// Reading-exercise lines, 108sp (3x).
+  reading(108);
 
   const OttomanTextSize(this.sp);
   final double sp;
@@ -35,7 +41,7 @@ class OttomanText extends StatelessWidget {
     this.showHarakat = true,
     this.color,
     this.textAlign = TextAlign.center,
-    this.fontWeight = FontWeight.w500,
+    this.fontWeight = FontWeight.w700,
   });
 
   final String text;
@@ -73,7 +79,7 @@ class OttomanText extends StatelessWidget {
         content,
         textAlign: textAlign,
         style: TextStyle(
-          fontFamily: 'NotoNaskhArabic',
+          fontFamily: 'Amiri',
           fontSize: effectiveSize,
           height: 1.6,
           fontWeight: fontWeight,

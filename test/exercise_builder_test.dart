@@ -22,7 +22,7 @@ void main() {
     final pool = words(10);
     final ex = builder.build(
         targets: pool.take(4).toList(), pool: pool, rng: Random(1),);
-    expect(ex.length, inInclusiveRange(8, 12));
+    expect(ex.length, inInclusiveRange(8, 14));
   });
 
   test('every exercise carries at least one review key', () {

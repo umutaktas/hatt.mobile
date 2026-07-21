@@ -115,7 +115,7 @@ class ReviewRepository {
   static LearnItem wordToItem(WordRow w) => LearnItem(
         key: 'word:${w.id}',
         ottoman: w.ottoman,
-        gloss: w.meaningTr,
+        gloss: w.transliteration,
         transliteration: w.transliteration,
         isLetter: false,
       );

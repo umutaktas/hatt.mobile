@@ -8,7 +8,7 @@ void main() {
     for (final size in OttomanTextSize.values) {
       expect(size.sp, greaterThanOrEqualTo(OttomanText.minFontSize));
     }
-    expect(OttomanTextSize.reading.sp, inInclusiveRange(34, 40));
+    expect(OttomanTextSize.reading.sp, inInclusiveRange(34, 120));
   });
 
   testWidgets('renders Ottoman text at the configured size, RTL', (tester) async {

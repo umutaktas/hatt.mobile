@@ -274,6 +274,16 @@ class LessonController extends StateNotifier<LessonState> {
     );
   }
 
+  /// Developer mode action to instantly complete the current lesson with 3 stars & XP.
+  Future<void> devSkipLesson() async {
+    state = state.copyWith(
+      correctFirstTry: state.exercises.length,
+      wrong: 0,
+      longestCombo: state.exercises.length,
+    );
+    await _finish();
+  }
+
   Future<void> _finish() async {
     final result = LessonResult(
       totalExercises: state.exercises.length,

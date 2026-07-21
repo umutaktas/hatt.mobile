@@ -2,7 +2,7 @@
   {
     "id": "elif",
     "name": "Elif",
-    "isolated": "ا",
+    "isolated": "اَ",
     "initial": "ا",
     "medial": "‍ا",
     "final": "‍ا",
@@ -13,7 +13,7 @@
   {
     "id": "be",
     "name": "Be",
-    "isolated": "ب",
+    "isolated": "بَ",
     "initial": "ب‍",
     "medial": "‍ب‍",
     "final": "‍ب",
@@ -24,7 +24,7 @@
   {
     "id": "pe",
     "name": "Pe",
-    "isolated": "پ",
+    "isolated": "پَ",
     "initial": "پ‍",
     "medial": "‍پ‍",
     "final": "‍پ",
@@ -35,7 +35,7 @@
   {
     "id": "te",
     "name": "Te",
-    "isolated": "ت",
+    "isolated": "تَ",
     "initial": "ت‍",
     "medial": "‍ت‍",
     "final": "‍ت",
@@ -46,7 +46,7 @@
   {
     "id": "se",
     "name": "Se",
-    "isolated": "ث",
+    "isolated": "ثَ",
     "initial": "ث‍",
     "medial": "‍ث‍",
     "final": "‍ث",
@@ -57,7 +57,7 @@
   {
     "id": "cim",
     "name": "Cim",
-    "isolated": "ج",
+    "isolated": "جَ",
     "initial": "ج‍",
     "medial": "‍ج‍",
     "final": "‍ج",
@@ -68,7 +68,7 @@
   {
     "id": "chim",
     "name": "Çim",
-    "isolated": "چ",
+    "isolated": "چَ",
     "initial": "چ‍",
     "medial": "‍چ‍",
     "final": "‍چ",
@@ -79,7 +79,7 @@
   {
     "id": "ha",
     "name": "Ha",
-    "isolated": "ح",
+    "isolated": "حَ",
     "initial": "ح‍",
     "medial": "‍ح‍",
     "final": "‍ح",
@@ -90,7 +90,7 @@
   {
     "id": "hi",
     "name": "Hı",
-    "isolated": "خ",
+    "isolated": "خَ",
     "initial": "خ‍",
     "medial": "‍خ‍",
     "final": "‍خ",
@@ -101,7 +101,7 @@
   {
     "id": "dal",
     "name": "Dal",
-    "isolated": "د",
+    "isolated": "دَ",
     "initial": "د",
     "medial": "‍د",
     "final": "‍د",
@@ -112,7 +112,7 @@
   {
     "id": "zel",
     "name": "Zel",
-    "isolated": "ذ",
+    "isolated": "ذَ",
     "initial": "ذ",
     "medial": "‍ذ",
     "final": "‍ذ",
@@ -123,7 +123,7 @@
   {
     "id": "re",
     "name": "Re",
-    "isolated": "ر",
+    "isolated": "رَ",
     "initial": "ر",
     "medial": "‍ر",
     "final": "‍ر",
@@ -134,7 +134,7 @@
   {
     "id": "ze",
     "name": "Ze",
-    "isolated": "ز",
+    "isolated": "زَ",
     "initial": "ز",
     "medial": "‍ز",
     "final": "‍ز",
@@ -145,7 +145,7 @@
   {
     "id": "je",
     "name": "Je",
-    "isolated": "ژ",
+    "isolated": "ژَ",
     "initial": "ژ",
     "medial": "‍ژ",
     "final": "‍ژ",
@@ -156,7 +156,7 @@
   {
     "id": "sin",
     "name": "Sin",
-    "isolated": "س",
+    "isolated": "سَ",
     "initial": "س‍",
     "medial": "‍س‍",
     "final": "‍س",
@@ -167,7 +167,7 @@
   {
     "id": "shin",
     "name": "Şın",
-    "isolated": "ش",
+    "isolated": "شَ",
     "initial": "ش‍",
     "medial": "‍ش‍",
     "final": "‍ش",
@@ -178,7 +178,7 @@
   {
     "id": "sad",
     "name": "Sad",
-    "isolated": "ص",
+    "isolated": "صَ",
     "initial": "ص‍",
     "medial": "‍ص‍",
     "final": "‍ص",
@@ -189,7 +189,7 @@
   {
     "id": "dad",
     "name": "Dad",
-    "isolated": "ض",
+    "isolated": "ضَ",
     "initial": "ض‍",
     "medial": "‍ض‍",
     "final": "‍ض",
@@ -200,7 +200,7 @@
   {
     "id": "ti",
     "name": "Tı",
-    "isolated": "ط",
+    "isolated": "طَ",
     "initial": "ط‍",
     "medial": "‍ط‍",
     "final": "‍ط",
@@ -211,7 +211,7 @@
   {
     "id": "zi",
     "name": "Zı",
-    "isolated": "ظ",
+    "isolated": "ظَ",
     "initial": "ظ‍",
     "medial": "‍ظ‍",
     "final": "‍ظ",
@@ -222,7 +222,7 @@
   {
     "id": "ayn",
     "name": "Ayın",
-    "isolated": "ع",
+    "isolated": "عَ",
     "initial": "ع‍",
     "medial": "‍ع‍",
     "final": "‍ع",
@@ -233,7 +233,7 @@
   {
     "id": "gayn",
     "name": "Gayın",
-    "isolated": "غ",
+    "isolated": "غَ",
     "initial": "غ‍",
     "medial": "‍غ‍",
     "final": "‍غ",
@@ -244,7 +244,7 @@
   {
     "id": "fe",
     "name": "Fe",
-    "isolated": "ف",
+    "isolated": "فَ",
     "initial": "ف‍",
     "medial": "‍ف‍",
     "final": "‍ف",
@@ -255,7 +255,7 @@
   {
     "id": "kaf",
     "name": "Kaf",
-    "isolated": "ق",
+    "isolated": "قَ",
     "initial": "ق‍",
     "medial": "‍ق‍",
     "final": "‍ق",
@@ -266,7 +266,7 @@
   {
     "id": "kef",
     "name": "Kef",
-    "isolated": "ك",
+    "isolated": "كَب",
     "initial": "ك‍",
     "medial": "‍ك‍",
     "final": "‍ك",
@@ -277,7 +277,7 @@
   {
     "id": "lam",
     "name": "Lam",
-    "isolated": "ل",
+    "isolated": "لَ",
     "initial": "ل‍",
     "medial": "‍ل‍",
     "final": "‍ل",
@@ -288,7 +288,7 @@
   {
     "id": "mim",
     "name": "Mim",
-    "isolated": "م",
+    "isolated": "مَ",
     "initial": "م‍",
     "medial": "‍م‍",
     "final": "‍م",
@@ -299,7 +299,7 @@
   {
     "id": "nun",
     "name": "Nun",
-    "isolated": "ن",
+    "isolated": "نَ",
     "initial": "ن‍",
     "medial": "‍ن‍",
     "final": "‍ن",
@@ -310,7 +310,7 @@
   {
     "id": "vav",
     "name": "Vav",
-    "isolated": "و",
+    "isolated": "وَ",
     "initial": "و",
     "medial": "‍و",
     "final": "‍و",
@@ -321,7 +321,7 @@
   {
     "id": "he",
     "name": "He",
-    "isolated": "ه",
+    "isolated": "هَ",
     "initial": "ه‍",
     "medial": "‍ه‍",
     "final": "‍ه",
@@ -332,7 +332,7 @@
   {
     "id": "ye",
     "name": "Ye",
-    "isolated": "ی",
+    "isolated": "يَ",
     "initial": "ی‍",
     "medial": "‍ی‍",
     "final": "‍ی",

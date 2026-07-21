@@ -68,6 +68,15 @@ class _LessonPlayView extends ConsumerWidget {
           ),
         ),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.fast_forward_rounded, color: AppColors.gold),
+            tooltip: 'Derse Geç (DEV)',
+            onPressed: () {
+              ref
+                  .read(lessonControllerProvider(node).notifier)
+                  .devSkipLesson();
+            },
+          ),
           Padding(
             padding: const EdgeInsets.only(right: 12),
             child: Row(children: [
@@ -202,59 +211,81 @@ class _ExerciseViewState extends ConsumerState<_ExerciseView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(_promptLabel(ex.kind),
-            style: Theme.of(context).textTheme.titleMedium,),
-        const SizedBox(height: 24),
+        _MascotPromptHeader(promptText: _promptLabel(ex.kind)),
         Card(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 16),
             child: ex.promptIsOttoman
-                ? OttomanText(ex.prompt, size: OttomanTextSize.prompt)
-                : Text(ex.prompt,
+                ? OttomanText(ex.prompt, size: OttomanTextSize.prompt, showHarakat: _showHarakat)
+                : Text(
+                    ex.prompt,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headlineSmall,),
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
           ),
         ),
-        const SizedBox(height: 24),
-        ...ex.options.asMap().entries.map((e) {
-          final i = e.key;
-          final opt = e.value;
-          final selected = _selected == i;
-          Color? border;
-          if (_isFeedback) {
-            if (i == ex.correctIndex) {
-              border = AppColors.success;
+        const SizedBox(height: 20),
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: ex.options.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 2.1,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
+          ),
+          itemBuilder: (context, i) {
+            final opt = ex.options[i];
+            final selected = _selected == i;
+            Color? border;
+            if (_isFeedback) {
+              if (i == ex.correctIndex) {
+                border = AppColors.success;
+              } else if (selected) {
+                border = AppColors.error;
+              }
             } else if (selected) {
-              border = AppColors.error;
+              border = AppColors.gold;
             }
-          } else if (selected) {
-            border = AppColors.gold;
-          }
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: InkWell(
+            return InkWell(
               onTap: _isFeedback ? null : () => setState(() => _selected = i),
               borderRadius: BorderRadius.circular(16),
-              child: Container(
-                constraints: const BoxConstraints(minHeight: 56),
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 100),
                 decoration: BoxDecoration(
+                  color: selected
+                      ? (border ?? AppColors.gold).withValues(alpha: 0.08)
+                      : Theme.of(context).cardTheme.color,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
                     color: border ?? Theme.of(context).colorScheme.outlineVariant,
-                    width: border != null ? 2.5 : 1,
+                    width: border != null ? 2.5 : 1.5,
                   ),
                 ),
                 alignment: Alignment.center,
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                 child: opt.isOttoman
-                    ? OttomanText(opt.text, size: OttomanTextSize.standard)
-                    : Text(opt.text,
+                    ? FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: OttomanText(
+                          opt.text,
+                          size: OttomanTextSize.optionChip,
+                          fontWeight: FontWeight.bold,
+                          showHarakat: _showHarakat,
+                        ),
+                      )
+                    : Text(
+                        opt.text,
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.titleMedium,),
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
               ),
-            ),
-          );
-        }),
+            );
+          },
+        ),
       ],
     );
   }
@@ -274,7 +305,10 @@ class _ExerciseViewState extends ConsumerState<_ExerciseView> {
               const Text('Hareke'),
               Switch(
                 value: _showHarakat,
-                onChanged: (v) => setState(() => _showHarakat = v),
+                onChanged: (v) {
+                  setState(() => _showHarakat = v);
+                  ref.read(userRepositoryProvider).setShowHarakat(v);
+                },
               ),
             ],),
           ],
@@ -337,7 +371,7 @@ class _ExerciseViewState extends ConsumerState<_ExerciseView> {
                     onTap: done
                         ? null
                         : () => setState(() => _pendingOttoman = p.key),
-                    child: OttomanText(p.ottoman, size: OttomanTextSize.standard),
+                    child: OttomanText(p.ottoman, size: OttomanTextSize.matchCell, fontWeight: FontWeight.bold, showHarakat: _showHarakat),
                   );
                 }).toList(),
               ),
@@ -354,8 +388,15 @@ class _ExerciseViewState extends ConsumerState<_ExerciseView> {
                     onTap: done || _pendingOttoman == null
                         ? null
                         : () => _tryMatch(ex, p.tr),
-                    child: Text(p.tr,
-                        style: Theme.of(context).textTheme.titleMedium,),
+                    child: Text(
+                      p.tr,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                    ),
                   );
                 }).toList(),
               ),
@@ -415,9 +456,9 @@ class _MatchCell extends StatelessWidget {
         child: Opacity(
           opacity: done ? 0.35 : 1,
           child: Container(
-            constraints: const BoxConstraints(minHeight: 56),
+            constraints: const BoxConstraints(minHeight: 64),
             alignment: Alignment.center,
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(14),
               border: Border.all(
@@ -472,12 +513,16 @@ class _FeedbackBar extends StatelessWidget {
         children: [
           if (isFeedback)
             Padding(
-              padding: const EdgeInsets.only(bottom: 8),
+              padding: const EdgeInsets.only(bottom: 12),
               child: Row(
                 children: [
-                  Icon(correct == true ? Icons.check_circle : Icons.cancel,
-                      color: correct == true ? AppColors.success : AppColors.error,),
-                  const SizedBox(width: 8),
+                  MascotView(
+                    state: correct == true
+                        ? MascotState.celebrating
+                        : MascotState.sad,
+                    size: 56,
+                  ),
+                  const SizedBox(width: 12),
                   Expanded(
                     child: Text(
                       correct == true
@@ -485,6 +530,7 @@ class _FeedbackBar extends StatelessWidget {
                           : '${l10n.wrong}${expected != null ? ' — $expected' : ''}',
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
+                        fontSize: 15,
                         color:
                             correct == true ? AppColors.success : AppColors.error,
                       ),
@@ -644,4 +690,94 @@ class _ResultChip extends StatelessWidget {
       label: Text(label, style: const TextStyle(fontWeight: FontWeight.w600)),
     );
   }
+}
+
+class _MascotPromptHeader extends StatelessWidget {
+  const _MascotPromptHeader({
+    required this.promptText,
+  });
+
+  final String promptText;
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bubbleColor = isDark ? AppColors.inkSoft : Colors.white;
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 24),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // Enlarged Mascot Mürekkep!
+          const MascotView(state: MascotState.normal, size: 115),
+          const SizedBox(width: 8),
+
+          // Speech Bubble Pointer (Tail) pointing at Mascot
+          CustomPaint(
+            size: const Size(12, 16),
+            painter: _SpeechBubbleTrianglePainter(color: bubbleColor),
+          ),
+
+          // Speech Bubble Container
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+              decoration: BoxDecoration(
+                color: bubbleColor,
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(22),
+                  bottomRight: Radius.circular(22),
+                  topLeft: Radius.circular(22),
+                  bottomLeft: Radius.circular(6),
+                ),
+                border: Border.all(
+                  color: AppColors.gold.withValues(alpha: 0.3),
+                  width: 2,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.ink.withValues(alpha: 0.08),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Text(
+                promptText,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SpeechBubbleTrianglePainter extends CustomPainter {
+  const _SpeechBubbleTrianglePainter({required this.color});
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill;
+
+    final path = Path()
+      ..moveTo(size.width, 0)
+      ..lineTo(0, size.height / 2)
+      ..lineTo(size.width, size.height)
+      ..close();
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant _SpeechBubbleTrianglePainter oldDelegate) =>
+      oldDelegate.color != color;
 }

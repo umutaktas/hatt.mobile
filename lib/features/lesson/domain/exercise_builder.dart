@@ -32,7 +32,7 @@ class LearnItem {
 /// (CLAUDE.md §4.1: 8–12 egzersizlik oturum, §4.2 altı tip). Pure Dart with an
 /// injected [Random] so ordering is testable/deterministic under a seeded RNG.
 class ExerciseBuilder {
-  const ExerciseBuilder({this.minExercises = 8, this.maxExercises = 12});
+  const ExerciseBuilder({this.minExercises = 10, this.maxExercises = 14});
 
   final int minExercises;
   final int maxExercises;
@@ -52,7 +52,7 @@ class ExerciseBuilder {
       exercises.add(_buildMatch(wordTargets, pool, rng));
     }
 
-    // Cycle each target through a couple of kinds until we hit the cap.
+    // Cycle each target through 2 varied exercise kinds max until we hit the cap.
     final ordered = [...targets]..shuffle(rng);
     for (final item in ordered) {
       final kinds = _kindsFor(item);
@@ -78,10 +78,10 @@ class ExerciseBuilder {
     if (item.isLetter) {
       return [ExerciseKind.distinguishLetter, ExerciseKind.chooseMeaning];
     }
+    // Limit to 2 question formats per word for max variety across 8 words
     return [
       ExerciseKind.chooseMeaning,
       ExerciseKind.typeTransliteration,
-      ExerciseKind.chooseOttoman,
     ];
   }
 
