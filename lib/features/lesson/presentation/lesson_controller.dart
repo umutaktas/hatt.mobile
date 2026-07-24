@@ -178,7 +178,11 @@ class LessonController extends StateNotifier<LessonState> {
 
       if (correct) {
         final combo = state.combo + 1;
-        await _sound.play(Sfx.correct);
+        if (combo > 0 && combo % 5 == 0) {
+          await _sound.play(Sfx.combo);
+        } else {
+          await _sound.play(Sfx.correct);
+        }
         final firstTry = !_currentHadError && !_requeued.contains(ex);
         state = state.copyWith(
           phase: LessonPhase.feedback,
@@ -287,6 +291,7 @@ class LessonController extends StateNotifier<LessonState> {
   /// Simulates watching a rewarded ad: adds 1 heart and resumes answering.
   Future<void> watchAdToEarnHeart() async {
     final next = await _users.gainOneHeart(_now);
+    await _sound.play(Sfx.heartGain);
     state = state.copyWith(
       hearts: next.current,
       phase: LessonPhase.answering,

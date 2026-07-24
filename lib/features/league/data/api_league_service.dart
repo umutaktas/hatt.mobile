@@ -47,6 +47,41 @@ class ApiLeagueService implements LeagueService {
     // Server-authoritative design: XP is calculated on the server per completed lesson.
   }
 
+  @override
+  Future<LeagueLastResult?> lastResult() async {
+    final response = await _apiClient.get('/v1/leagues/last-result');
+    if (!response.isSuccess || response.data is! Map<String, dynamic>) {
+      return null;
+    }
+
+    final data = response.data as Map<String, dynamic>;
+    final tierStr = (data['tier'] as String? ?? 'bronze').toLowerCase();
+    final tier = LeagueTier.values.firstWhere(
+      (t) => t.name.toLowerCase() == tierStr,
+      orElse: () => LeagueTier.bronze,
+    );
+
+    final nextTierStr = (data['nextTier'] as String? ?? 'bronze').toLowerCase();
+    final nextTier = LeagueTier.values.firstWhere(
+      (t) => t.name.toLowerCase() == nextTierStr,
+      orElse: () => LeagueTier.bronze,
+    );
+
+    final outcomeStr = (data['outcome'] as String? ?? 'stayed').toLowerCase();
+    final outcome = LeagueOutcome.values.firstWhere(
+      (o) => o.name.toLowerCase() == outcomeStr,
+      orElse: () => LeagueOutcome.stayed,
+    );
+
+    return LeagueLastResult(
+      weekId: data['weekId'] as String? ?? '',
+      tier: tier,
+      finalRank: data['finalRank'] as int? ?? 1,
+      outcome: outcome,
+      nextTier: nextTier,
+    );
+  }
+
   /// Sends a verified lesson completion to award server-calculated XP to the user's weekly cohort.
   Future<int?> completeLesson({
     required String nodeId,

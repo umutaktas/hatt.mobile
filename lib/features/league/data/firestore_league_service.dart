@@ -51,4 +51,9 @@ class FirestoreLeagueService implements LeagueService {
     //         SetOptions(merge: true));
     throw UnimplementedError('Enable Firebase to submit weekly XP.');
   }
+
+  @override
+  Future<LeagueLastResult?> lastResult() async {
+    throw UnimplementedError('Enable Firebase to get last result.');
+  }
 }

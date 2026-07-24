@@ -11,9 +11,9 @@ class ApiConfig {
 
   static String get defaultBaseUrl {
     if (Platform.isAndroid) {
-      return 'http://10.0.2.2:5000';
+      return 'http://10.0.2.2:5273';
     }
-    return 'http://localhost:5000';
+    return 'http://localhost:5273';
   }
 
   static const ApiConfig defaults = ApiConfig();

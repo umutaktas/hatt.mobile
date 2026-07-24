@@ -53,11 +53,7 @@ class LocalEntitlementService implements EntitlementService {
 
   @override
   Future<bool> purchasePremium() async {
-    if (!flags.purchasesEnabled) {
-      // Purchases disabled: paywall is a skeleton (§2). Nothing to buy yet.
-      return _premium;
-    }
-    // TODO(revenuecat): call Purchases.purchasePackage(...) here.
+    // In local/offline mode or simulation, activate premium for testing (§6).
     await setPremium(true);
     return _premium;
   }

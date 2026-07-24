@@ -218,7 +218,7 @@ class _ExerciseViewState extends ConsumerState<_ExerciseView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _MascotPromptHeader(promptText: _promptLabel(ex.kind)),
+        _MascotPromptHeader(promptText: _promptLabel(ex)),
         Card(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 16),
@@ -432,12 +432,16 @@ class _ExerciseViewState extends ConsumerState<_ExerciseView> {
     }
   }
 
-  String _promptLabel(ExerciseKind kind) => switch (kind) {
-        ExerciseKind.chooseMeaning => widget.l10n.chooseMeaning,
-        ExerciseKind.chooseOttoman => 'Osmanlıcasını seç',
-        ExerciseKind.distinguishLetter => 'Bu harfin sesi hangisi?',
-        _ => '',
-      };
+  String _promptLabel(Exercise ex) {
+    final isLetter = ex.reviewKeys.any((k) => k.startsWith('letter:'));
+    return switch (ex.kind) {
+      ExerciseKind.chooseMeaning =>
+        isLetter ? 'İsmini seç' : widget.l10n.chooseMeaning,
+      ExerciseKind.chooseOttoman => isLetter ? 'Harfi seç' : 'Osmanlıcasını seç',
+      ExerciseKind.distinguishLetter => 'Bu harfin sesi hangisi?',
+      _ => '',
+    };
+  }
 }
 
 class _MatchCell extends StatelessWidget {

@@ -8,7 +8,11 @@ enum Sfx {
   correct('audio/correct.wav'),
   wrong('audio/wrong.wav'),
   lessonComplete('audio/complete.wav'),
-  levelUp('audio/levelup.wav');
+  levelUp('audio/levelup.wav'),
+  combo('audio/combo.wav'),
+  heartGain('audio/heartgain.wav'),
+  streak('audio/streak.wav'),
+  tap('audio/tap.wav');
 
   const Sfx(this.asset);
   final String asset;

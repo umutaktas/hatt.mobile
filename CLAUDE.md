@@ -127,3 +127,4 @@ Her fazın sonunda: `flutter analyze` temiz, testler geçer, CHANGELOG maddesi.
 - Erişilebilirlik: interaktif öğeler min 48dp; Osmanlıca punto kuralı tartışmaya kapalı.
 - Firebase başlatma feature flag arkasında; backend olmadan da uygulama açılır
   (lig sekmesi "bağlantı yok").
+- **Git & Commit Kuralı**: Asla otomatik veya doğrudan commit/push yapma. Geliştirmeler yapıldıktan sonra önce kullanıcının test etmesine izin ver, commit ve push işlemlerini yalnızca kullanıcı testi yapıp onayladıktan veya talep ettikten sonra gerçekleştir.
