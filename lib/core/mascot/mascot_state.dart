@@ -1,7 +1,7 @@
-/// Mascot ("Mürekkep", the ink-bottle character with a pen-nib cap,
+/// Mascot ("Hokka", the ink-bottle character with a pen-nib cap,
 /// CLAUDE.md §4.3) emotional states. The enum abstracts state so artwork can
 /// be swapped without touching call sites. Art source: Figma "Osmanlıca
-/// E-Learning — Mürekkep Maskot" (poses: Neutral / Thinking / Celebrate /
+/// E-Learning — Hokka Maskot" (poses: Neutral / Thinking / Celebrate /
 /// Encourage / Sleeping — the last derived from Neutral with closed eyes).
 enum MascotState {
   normal('assets/mascot/murekkep_neutral.png'),

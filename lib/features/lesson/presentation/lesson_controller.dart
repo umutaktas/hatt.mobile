@@ -235,7 +235,7 @@ class LessonController extends StateNotifier<LessonState> {
         combo: 0,
         wrong: state.wrong + 1,
         hearts: hearts,
-        phase: !state.unlimitedHearts && hearts <= 0
+        phase: !state.unlimitedHearts && hearts <= 0 && node.type != NodeType.review
             ? LessonPhase.outOfHearts
             : state.phase,
       );
@@ -246,7 +246,7 @@ class LessonController extends StateNotifier<LessonState> {
 
   Future<void> advance() async {
     if (state.phase != LessonPhase.feedback) return;
-    if (!state.unlimitedHearts && state.hearts <= 0) {
+    if (!state.unlimitedHearts && state.hearts <= 0 && node.type != NodeType.review) {
       state = state.copyWith(phase: LessonPhase.outOfHearts);
       return;
     }
@@ -284,6 +284,15 @@ class LessonController extends StateNotifier<LessonState> {
     await _finish();
   }
 
+  /// Simulates watching a rewarded ad: adds 1 heart and resumes answering.
+  Future<void> watchAdToEarnHeart() async {
+    final next = await _users.gainOneHeart(_now);
+    state = state.copyWith(
+      hearts: next.current,
+      phase: LessonPhase.answering,
+    );
+  }
+
   Future<void> _finish() async {
     final result = LessonResult(
       totalExercises: state.exercises.length,
@@ -304,7 +313,7 @@ class LessonController extends StateNotifier<LessonState> {
 
     // Review/practice lessons restore hearts (§4.3: "pratik yaparak kazan").
     if (node.type == NodeType.review) {
-      await _users.refillHearts();
+      await _users.gainOneHeart(_now);
     }
 
     if (outcome.leveledUp) {

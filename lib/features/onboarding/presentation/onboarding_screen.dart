@@ -79,11 +79,20 @@ class _Intro extends StatelessWidget {
         children: [
           const MascotView(state: MascotState.celebrating, size: 210),
           const SizedBox(height: 24),
-          const OttomanText('خط', size: OttomanTextSize.reading,
+          const OttomanText('حُقَّه', size: OttomanTextSize.reading,
               color: AppColors.gold,),
           const SizedBox(height: 12),
-          Text('Mürekkep', style: Theme.of(context).textTheme.displaySmall),
-          const SizedBox(height: 8),
+          Text('Hokka', style: Theme.of(context).textTheme.displaySmall),
+          const SizedBox(height: 4),
+          const Text(
+            'hokka.app',
+            style: TextStyle(
+              color: AppColors.gold,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          ),
+          const SizedBox(height: 12),
           Text(
             'Osmanlıca okumayı adım adım, gerçek tarihi metinlerle öğren.',
             textAlign: TextAlign.center,
@@ -112,7 +121,7 @@ class _ConsentPage extends StatelessWidget {
               style: Theme.of(context).textTheme.headlineSmall,),
           const SizedBox(height: 16),
           const Text(
-            'Mürekkep varsayılan olarak anonim çalışır. Kişisel veri toplanmaz. '
+            'Hokka varsayılan olarak anonim çalışır. Kişisel veri toplanmaz. '
             'İlerlemen cihazında saklanır. İstersen daha sonra hesabını '
             'e-posta ile yedekleyebilirsin; o durumda yalnızca e-posta adresin '
             'saklanır.\n\n'

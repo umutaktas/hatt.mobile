@@ -24,7 +24,7 @@ class PaywallScreen extends ConsumerWidget {
     final entitlement = ref.watch(entitlementProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Hatt Premium')),
+      appBar: AppBar(title: const Text('Hokka Premium')),
       body: ListView(
         padding: const EdgeInsets.all(24),
         children: [

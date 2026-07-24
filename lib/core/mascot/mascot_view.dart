@@ -89,7 +89,7 @@ class _MascotViewState extends State<MascotView> {
       asset,
       fit: BoxFit.contain,
       gaplessPlayback: true,
-      semanticLabel: 'Mürekkep',
+      semanticLabel: 'Hokka',
       errorBuilder: (_, __, ___) => const SizedBox.shrink(),
     );
 

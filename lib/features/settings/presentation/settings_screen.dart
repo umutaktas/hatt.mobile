@@ -89,6 +89,20 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             ),
             onTap: () => _confirmDelete(context),
           ),
+          const Divider(),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 24),
+            child: Center(
+              child: Text(
+                'hokka.app',
+                style: TextStyle(
+                  color: AppColors.gold,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

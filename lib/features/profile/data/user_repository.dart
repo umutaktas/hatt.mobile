@@ -63,6 +63,17 @@ class UserRepository {
     ),);
   }
 
+  /// Adds one heart to the user's total, capping at max.
+  Future<HeartsState> gainOneHeart(DateTime now) async {
+    final row = await current();
+    final next = hearts.gainOne(_heartsStateOf(row), now);
+    await db.updateUserState(UserStateTableCompanion(
+      hearts: Value(next.current),
+      heartsNextRegen: Value(next.nextRegenAt),
+    ),);
+    return next;
+  }
+
   /// Applies XP + streak progression at lesson completion. Returns whether the
   /// user leveled up.
   Future<CompletionOutcome> applyCompletion({

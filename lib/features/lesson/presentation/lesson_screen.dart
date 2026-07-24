@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,6 +8,7 @@ import '../../../core/mascot/mascot_state.dart';
 import '../../../core/providers/app_providers.dart';
 import '../../../core/mascot/mascot_view.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/audio/sound_service.dart';
 import '../../../core/widgets/ottoman_text.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../paywall/presentation/paywall_screen.dart';
@@ -555,13 +557,194 @@ class _FeedbackBar extends StatelessWidget {
   }
 }
 
+class _HeartsRegenCountdown extends StatefulWidget {
+  const _HeartsRegenCountdown({required this.nextRegenAt});
+  final DateTime nextRegenAt;
+
+  @override
+  State<_HeartsRegenCountdown> createState() => _HeartsRegenCountdownState();
+}
+
+class _HeartsRegenCountdownState extends State<_HeartsRegenCountdown> {
+  late Timer _timer;
+  late Duration _timeLeft;
+
+  @override
+  void initState() {
+    super.initState();
+    _calculateTimeLeft();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (mounted) {
+        setState(() {
+          _calculateTimeLeft();
+        });
+      }
+    });
+  }
+
+  void _calculateTimeLeft() {
+    final now = DateTime.now();
+    _timeLeft = widget.nextRegenAt.difference(now);
+    if (_timeLeft.isNegative) {
+      _timeLeft = Duration.zero;
+    }
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_timeLeft == Duration.zero) {
+      return const Text(
+        'Yeni can doldu! Yenilemek için yola dönün.',
+        style: TextStyle(
+          color: AppColors.teal,
+          fontWeight: FontWeight.bold,
+        ),
+      );
+    }
+
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    final hours = twoDigits(_timeLeft.inHours);
+    final minutes = twoDigits(_timeLeft.inMinutes.remainder(60));
+    final seconds = twoDigits(_timeLeft.inSeconds.remainder(60));
+
+    return Column(
+      children: [
+        const Icon(Icons.hourglass_empty, color: AppColors.gold, size: 24),
+        const SizedBox(height: 8),
+        Text(
+          'Yeni cana kalan süre: $hours:$minutes:$seconds',
+          style: const TextStyle(
+            color: AppColors.gold,
+            fontWeight: FontWeight.bold,
+            fontSize: 15,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _SimulatedAdDialog extends StatefulWidget {
+  const _SimulatedAdDialog({required this.onCompleted});
+  final VoidCallback onCompleted;
+
+  @override
+  State<_SimulatedAdDialog> createState() => _SimulatedAdDialogState();
+}
+
+class _SimulatedAdDialogState extends State<_SimulatedAdDialog> {
+  int _secondsLeft = 3;
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_secondsLeft > 1) {
+        setState(() {
+          _secondsLeft--;
+        });
+      } else {
+        _timer.cancel();
+        Navigator.of(context).pop(); // Close dialog
+        widget.onCompleted(); // Trigger completion callback
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: AppColors.ink,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      content: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.ondemand_video, color: AppColors.gold, size: 48),
+            const SizedBox(height: 16),
+            const Text(
+              'Reklam İzleniyor...',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              'Can kazanmak için reklamı sonuna kadar izleyin.',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white70, fontSize: 13),
+            ),
+            const SizedBox(height: 24),
+            SizedBox(
+              width: 64,
+              height: 64,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  CircularProgressIndicator(
+                    value: (4 - _secondsLeft) / 3.0,
+                    valueColor: const AlwaysStoppedAnimation(AppColors.gold),
+                    backgroundColor: Colors.white12,
+                    strokeWidth: 6,
+                  ),
+                  Text(
+                    '$_secondsLeft',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _OutOfHeartsView extends ConsumerWidget {
   const _OutOfHeartsView({required this.node});
   final PathNode node;
 
+  Future<void> _showRewardedAdDialog(BuildContext context, WidgetRef ref) async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) => _SimulatedAdDialog(
+        onCompleted: () async {
+          final soundService = ref.read(soundServiceProvider);
+          await soundService.play(Sfx.correct);
+          await ref.read(lessonControllerProvider(node).notifier).watchAdToEarnHeart();
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
+    final user = ref.watch(userStateProvider).value;
+    final nextRegen = user?.heartsNextRegen;
+
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
@@ -575,7 +758,21 @@ class _OutOfHeartsView extends ConsumerWidget {
                 style: Theme.of(context).textTheme.headlineSmall,),
             const SizedBox(height: 8),
             Text(l10n.outOfHeartsBody, textAlign: TextAlign.center),
-            const SizedBox(height: 32),
+            const SizedBox(height: 24),
+            if (nextRegen != null) ...[
+              _HeartsRegenCountdown(nextRegenAt: nextRegen),
+              const SizedBox(height: 24),
+            ],
+            FilledButton.icon(
+              icon: const Icon(Icons.ondemand_video),
+              style: FilledButton.styleFrom(
+                backgroundColor: AppColors.teal,
+                foregroundColor: Colors.white,
+              ),
+              onPressed: () => _showRewardedAdDialog(context, ref),
+              label: const Text('Reklam izle (+1 can)'),
+            ),
+            const SizedBox(height: 12),
             FilledButton.icon(
               icon: const Icon(Icons.fitness_center),
               onPressed: () => Navigator.of(context).pushReplacement(
@@ -709,7 +906,7 @@ class _MascotPromptHeader extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Enlarged Mascot Mürekkep!
+          // Enlarged Mascot Hokka!
           const MascotView(state: MascotState.normal, size: 115),
           const SizedBox(width: 8),
 

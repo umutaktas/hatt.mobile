@@ -53,6 +53,16 @@ class HeartsPolicy {
   /// Refills to full (e.g. after completing a practice/review lesson).
   HeartsState refill(HeartsState state) =>
       state.copyWith(current: maxHearts, nextRegenAt: null);
+
+  /// Gained one heart from completing a practice session.
+  HeartsState gainOne(HeartsState state, DateTime now) {
+    if (state.unlimited || state.current >= maxHearts) return state;
+    final next = state.current + 1;
+    if (next >= maxHearts) {
+      return state.copyWith(current: maxHearts, nextRegenAt: null);
+    }
+    return state.copyWith(current: next);
+  }
 }
 
 class HeartsState {
