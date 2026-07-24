@@ -53,7 +53,12 @@ class _LessonPlayView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ex = state.current!;
+    final ex = state.current;
+    if (ex == null) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
