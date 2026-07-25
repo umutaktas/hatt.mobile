@@ -7,6 +7,7 @@ import '../../features/league/data/league_service.dart';
 import '../../features/paywall/domain/entitlement_service.dart';
 import '../../features/profile/data/user_repository.dart';
 import '../../features/settings/data/account_linking_service.dart';
+import '../analytics/analytics_service.dart';
 import '../audio/sound_service.dart';
 import '../config/api_config.dart';
 import '../config/feature_flags.dart';
@@ -84,6 +85,11 @@ final soundServiceProvider = Provider<SoundService>((ref) {
   final service = SoundService();
   ref.onDispose(service.dispose);
   return service;
+});
+
+final analyticsServiceProvider = Provider<AnalyticsService>((ref) {
+  final telemetry = ref.watch(telemetryServiceProvider);
+  return AnalyticsService(telemetry: telemetry);
 });
 
 /// Streams the singleton user_state row.

@@ -3,12 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app.dart';
+import 'core/analytics/crash_reporter_service.dart';
 import 'core/db/database.dart';
 import 'core/providers/app_providers.dart';
 import 'core/seed/content_seeder.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Crashlytics / CrashReporter global error handlers
+  CrashReporterService.instance.initialize();
 
   final prefs = await SharedPreferences.getInstance();
 

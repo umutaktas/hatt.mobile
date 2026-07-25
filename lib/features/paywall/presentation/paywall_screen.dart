@@ -134,31 +134,46 @@ class _PaywallScreenState extends ConsumerState<PaywallScreen> {
                 children: [
                   const SizedBox(height: 8),
 
-                  // Mascot Header with High-Contrast Spotlight Backdrop
+                  // Mascot Header Card with Warm Parchment Backdrop & Ground Shadow (Figma Node 3:2)
                   Center(
                     child: Container(
-                      width: 150,
-                      height: 150,
+                      width: 170,
+                      height: 170,
                       decoration: BoxDecoration(
+                        color: AppColors.parchment,
                         shape: BoxShape.circle,
-                        color: Colors.white.withValues(alpha: 0.12),
                         border: Border.all(
-                          color: AppColors.gold.withValues(alpha: 0.6),
-                          width: 2,
+                          color: AppColors.gold,
+                          width: 3,
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.gold.withValues(alpha: 0.3),
-                            blurRadius: 30,
-                            spreadRadius: 6,
+                            color: AppColors.gold.withValues(alpha: 0.35),
+                            blurRadius: 25,
+                            spreadRadius: 4,
                           ),
                         ],
                       ),
-                      child: const Center(
-                        child: MascotView(
-                          state: MascotState.celebrating,
-                          size: 125,
-                        ),
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          // Soft Oval Ground Shadow under Hokka's feet (Figma 3:2 style)
+                          Positioned(
+                            bottom: 18,
+                            child: Container(
+                              width: 90,
+                              height: 14,
+                              decoration: BoxDecoration(
+                                color: Colors.black.withValues(alpha: 0.12),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                          const MascotView(
+                            state: MascotState.celebrating,
+                            size: 130,
+                          ),
+                        ],
                       ),
                     ),
                   ).animate().scale(duration: 400.ms, curve: Curves.easeOutBack),
